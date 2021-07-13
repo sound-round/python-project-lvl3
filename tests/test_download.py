@@ -2,7 +2,7 @@ import pytest
 from page_loader.page_loader import download
 import re
 from pathlib import Path
-from os.path import splitext
+from os.path import splitext, split
 import tempfile
 
 
@@ -17,10 +17,11 @@ def test_download():
     for url in URLs:
         with tempfile.TemporaryDirectory() as tmp_directory:
             file_path = download(url, tmp_directory)
-            my_file = Path(file_path)
-            forbidden_chars = re.search(FORBIDDEN_CHARS, file_path)
+            file = Path(file_path)
+            file_name = split(file_path)[-1]
+            forbidden_chars = re.search(FORBIDDEN_CHARS, file_name)
 
-            assert my_file.is_file()
+            assert file.is_file()
             assert file_path is not None
             assert isinstance(file_path, str)
             assert not forbidden_chars
