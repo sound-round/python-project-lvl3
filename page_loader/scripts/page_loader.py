@@ -7,7 +7,7 @@ from page_loader import cli_args
 
 def main():
     args = cli_args.parse()
-    file_path = loader.download(args.output)
+    file_path = loader.download(args.url, args.output)
     print(file_path)
 
 

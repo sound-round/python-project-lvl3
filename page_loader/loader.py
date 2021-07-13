@@ -1,2 +1,2 @@
-def download(output):
-    pass
+def download(url, output):
+    print('downloading...')

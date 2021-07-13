@@ -2,7 +2,8 @@ import argparse
 
 
 def parse():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Download page')
+    parser.add_argument("url")
     parser.add_argument(
         '--output',
         default='os.getcwd()',
