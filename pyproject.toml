@@ -7,6 +7,9 @@ packages = [
     { include = "page_loader"}
 ]
 
+[tool.poetry.scripts]
+page-loader = "page_loader.scripts.page_loader:main"
+
 [tool.poetry.dependencies]
 python = "^3.8"
 
