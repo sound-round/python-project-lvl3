@@ -17,15 +17,15 @@ def test_download():
     for url in URLs:
         with tempfile.TemporaryDirectory() as tmp_directory:
             file_path = download(url, tmp_directory)
-            file = Path(file_path)
             file_name = split(file_path)[-1]
             forbidden_chars = re.search(FORBIDDEN_CHARS, file_name)
+            file = Path(file_path)
 
             assert file.is_file()
             assert file_path is not None
             assert isinstance(file_path, str)
             assert not forbidden_chars
-            assert splitext(file_path) == '.html'
+            assert splitext(file_path)[-1] == '.html'
             # TODO think how to do that:
             assert not ('https---' in file_path)
 
