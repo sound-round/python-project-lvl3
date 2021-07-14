@@ -33,10 +33,8 @@ def test_download():
 def test_download_exceptions():
     # TODO discuss with the mentor
     with tempfile.TemporaryDirectory() as tmp_directory:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ValueError):
             download('', tmp_directory)
 
-    with pytest.raises(FileNotFoundError) as e:
-        download(URLs[1], 'bla/bla')
-
-
+    with pytest.raises(FileNotFoundError):
+        download(URLs[1], '/undefined')
