@@ -25,7 +25,8 @@ def test_download():
             assert file_path is not None
             assert isinstance(file_path, str)
             assert not forbidden_chars
-            assert splitext(file_path)[-1] == '.html'
+            assert file_path.endswith('ru-hexlet-io-courses.html')
+            #assert splitext(file_path)[-1] == '.html'
             # TODO think how to do that:
             assert not ('https---' in file_path)
 

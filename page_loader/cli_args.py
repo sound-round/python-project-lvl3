@@ -1,4 +1,5 @@
 import argparse
+import os
 
 
 def parse():
@@ -6,7 +7,7 @@ def parse():
     parser.add_argument("url")
     parser.add_argument(
         '--output',
-        default='os.getcwd()',
+        default=os.getcwd(),
         help='set output folder (default: current directory)',
     )
     return parser.parse_args()
