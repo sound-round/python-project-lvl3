@@ -28,7 +28,11 @@ class RequestsFake:
 def test_download():
     for url in URLs:
         with tempfile.TemporaryDirectory() as tmp_directory:
-            file_path = download(url, tmp_directory, library=RequestsFake(DATA))
+            file_path = download(
+                url,
+                tmp_directory,
+                library=RequestsFake(DATA)
+            )
             file_name = split(file_path)[-1]
             forbidden_chars = re.search(FORBIDDEN_CHARS, file_name)
             file = Path(file_path)
