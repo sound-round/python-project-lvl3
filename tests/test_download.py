@@ -31,12 +31,12 @@ def test_download():
 
 
 def test_download_exceptions():
+    # TODO discuss with the mentor
     with tempfile.TemporaryDirectory() as tmp_directory:
         with pytest.raises(ValueError) as e:
             download('', tmp_directory)
-        assert str(e.value) == 'url is missing'
 
-    with pytest.raises(ValueError) as e:
-        download(URLs[1], None)
-    assert str(e.value) == 'output path does not exist'
+    with pytest.raises(FileNotFoundError) as e:
+        download(URLs[1], 'bla/bla')
+
 
