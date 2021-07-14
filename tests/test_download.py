@@ -2,7 +2,7 @@ import pytest
 from page_loader.page_loader import download
 import re
 from pathlib import Path
-from os.path import splitext, split
+from os.path import split
 import tempfile
 
 
@@ -11,23 +11,35 @@ URLs = (
     'https://ru.hexlet.io/courses',
     'https://ru.HEXLET.io/courses',
 )
+DATA = open('tests/fixtures/ru-hexlet-io-courses.html', 'rb')
+
+
+class RequestsFake:
+    def __init__(self, data):
+        self.data = data
+
+    def get(self, url, stream):
+        return self
+
+    def iter_content(self, chunk_size):
+        return self.data
 
 
 def test_download():
     for url in URLs:
         with tempfile.TemporaryDirectory() as tmp_directory:
-            file_path = download(url, tmp_directory)
+            file_path = download(url, tmp_directory, library=RequestsFake(DATA))
             file_name = split(file_path)[-1]
             forbidden_chars = re.search(FORBIDDEN_CHARS, file_name)
             file = Path(file_path)
 
             assert file.is_file()
-            assert file_path is not None
+            #  assert file_path is not None
             assert isinstance(file_path, str)
             assert not forbidden_chars
             assert file_path.endswith('ru-hexlet-io-courses.html')
-            #assert splitext(file_path)[-1] == '.html'
-            # TODO think how to do that:
+            #  assert splitext(file_path)[-1] == '.html'
+            #  TODO think how to do that:
             assert not ('https---' in file_path)
 
 
