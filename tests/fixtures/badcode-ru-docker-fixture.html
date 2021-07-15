@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+	<meta name="google-site-verification" content="W_LbcC5j1OUkZLB_1Lc95Wtoket3cERqYNiMqCZj9bA" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Самый простой, полный и понятный туториал Docker для новичков.</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=73ab39ae27" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/prism.css?v=73ab39ae27" />
+
+    <meta name="description" content="В этой статье затронуты все термины, понятия и компоненты Dockerа, которые понадобятся при разработке. Статья нацелена на новичков, не имеющих знаний, опыта" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="http://badcode.ru/docker-tutorial-dlia-novichkov-rassmatrivaiem-docker-tak-iesli-by-on-byl-ighrovoi-pristavkoi/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://badcode.ru/docker-tutorial-dlia-novichkov-rassmatrivaiem-docker-tak-iesli-by-on-byl-ighrovoi-pristavkoi/amp/" />
+    
+    <meta property="og:site_name" content="Блог php программиста: статьи по PHP, JavaScript, MySql" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Самый простой, полный и понятный туториал Docker для новичков." />
+    <meta property="og:description" content="В этой статье затронуты все термины, понятия и компоненты Dockerа, которые понадобятся при разработке. Статья нацелена на новичков, не имеющих знаний, опыта" />
+    <meta property="og:url" content="http://badcode.ru/docker-tutorial-dlia-novichkov-rassmatrivaiem-docker-tak-iesli-by-on-byl-ighrovoi-pristavkoi/" />
+    <meta property="og:image" content="http://badcode.ru/content/images/2019/05/preview-1.png" />
+    <meta property="article:published_time" content="2019-05-23T10:49:32.000Z" />
+    <meta property="article:modified_time" content="2021-01-27T14:34:00.000Z" />
+    <meta property="article:tag" content="docker" />
+    <meta property="article:tag" content="php" />
+    <meta property="article:tag" content="повышая квалификацию" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Самый простой, полный и понятный туториал Docker для новичков." />
+    <meta name="twitter:description" content="В этой статье затронуты все термины, понятия и компоненты Dockerа, которые понадобятся при разработке. Статья нацелена на новичков, не имеющих знаний, опыта" />
+    <meta name="twitter:url" content="http://badcode.ru/docker-tutorial-dlia-novichkov-rassmatrivaiem-docker-tak-iesli-by-on-byl-ighrovoi-pristavkoi/" />
+    <meta name="twitter:image" content="http://badcode.ru/content/images/2019/05/preview-1.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Fomenko Alexander" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="docker, php, повышая квалификацию" />
+    <meta property="og:image:width" content="1000" />
+    <meta property="og:image:height" content="523" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Блог php программиста: статьи по PHP, JavaScript, MySql",
+        "logo": "http://badcode.ru/content/images/2020/01/badcode-2.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Fomenko Alexander",
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://badcode.ru/content/images/2020/01/badcode.png",
+            "width": 300,
+            "height": 343
+        },
+        "url": "http://badcode.ru/author/fomenko/",
+        "sameAs": []
+    },
+    "headline": "Самый простой, полный и понятный туториал Docker для новичков.",
+    "url": "https://badcode.ru/docker-tutorial-dlia-novichkov-rassmatrivaiem-docker-tak-iesli-by-on-byl-ighrovoi-pristavkoi/",
+    "datePublished": "2019-05-23T10:49:32.000Z",
+    "dateModified": "2021-01-27T14:34:00.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://badcode.ru/content/images/2019/05/preview-1.png",
+        "width": 1000,
+        "height": 523
+    },
+    "keywords": "docker, php, повышая квалификацию",
+    "description": "В этой статье затронуты все термины, понятия и компоненты Dockerа, которые понадобятся при разработке. Статья нацелена на новичков, не имеющих знаний, опыта",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://badcode.ru/"
+    }
+}
+    </script>
+
+    <script type="text/javascript" src="/public/ghost-sdk.min.js?v=73ab39ae27"></script>
+<script type="text/javascript">
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "f1f2eaf165b1"
+});
+</script>
+    <meta name="generator" content="Ghost 1.22" />
+    <link rel="alternate" type="application/rss+xml" title="Блог php программиста: статьи по PHP, JavaScript, MySql" href="https://badcode.ru/rss/" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140778686-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140778686-1');
+</script>
+
+<meta name="yandex-verification" content="450e4545ebfa800b" />
+
+<script data-ad-client="ca-pub-6727518450369587" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<style>
+    .site-description {
+    	color: white;
+        background: rgba(0, 0, 0, 0.7);
+    }
+    .site-nav .nav {
+        color: white;
+        background: black;
+        padding: 0 10px;
+    }
+</style>
+
+</head>
+<body class="post-template tag-docker tag-php tag-povyshaia-kvalifikatsiiu">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+                <a class="site-nav-logo" href="https://badcode.ru"><img src="/content/images/2020/01/badcode-2.png" alt="Блог php программиста: статьи по PHP, JavaScript, MySql" /></a>
+            <ul class="nav" role="menu">
+    <li class="nav--" role="menuitem"><a href="https://badcode.ru/">Все статьи</a></li>
+    <li class="nav-php" role="menuitem"><a href="https://badcode.ru/tag/php/">PHP</a></li>
+    <li class="nav-true-stories" role="menuitem"><a href="https://badcode.ru/tag/true-stories/">true stories</a></li>
+    <li class="nav-" role="menuitem"><a href="https://badcode.ru/tag/parsery/">Парсеры</a></li>
+    <li class="nav-laravel" role="menuitem"><a href="https://badcode.ru/tag/laravel/">Laravel</a></li>
+    <li class="nav--100-digitalocean" role="menuitem"><a href="https://badcode.ru/kak-zarieghistrirovatsia-na-digitalocean-s-bonusom-v-100-dollarov/">Бонус 100$ на DigitalOcean</a></li>
+    <li class="nav--bafistobigmirnet" role="menuitem"><a href="mailto:bafisto@bigmir.net">Напиши мне (bafisto@bigmir.net)</a></li>
+</ul>
+
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+        </div>
+            <a class="subscribe-button" href="#subscribe">Subscribe</a>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full post tag-docker tag-php tag-povyshaia-kvalifikatsiiu ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="2019-05-23">23 May 2019</time>
+                        <span class="date-divider">/</span> <a href="/tag/docker/">docker</a>
+                </section>
+                <h1 class="post-full-title">Docker самый простой и понятный туториал. Изучаем докер, так, если бы он был игровой приставкой</h1>
+            </header>
+
+            <figure class="post-full-image" style="background-image: url(/content/images/2019/05/preview-1.png)">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown"><p>Добро пожаловать в гайд по изучению Docker, в котором я проиллюстрирую вам совершенно иной подход при разработке ваших приложений с его помощью. Эту статью вы можете считать как <strong>быстрый старт, введение в Docker</strong>. Когда вы полностью прочитаете эту статью, уверен, вы поймёте, что такое Docker, для чего он нужен, и где используется. Но основным ключом к его освоению - это полное повторение процесса написания кода, как демонстрируется в этой статье. Это <strong>гайд по работе с Docker для новичков</strong>, потому, дублирование процесса у себя на компьюетере - обязательное условие к его пониманию. Одного чтения недостаточно, важно - повторение процесса и много практики. Так же чтобы наконец-то научиться работать с ним, даже при условии плохого понимая Docker-а, начните его уже применять в своей разработке. Начните, и увидите, как стали продвинутым его пользователем.</p>
+<p>Когда я наконец-то понял все тонкости работы с Docker (на полное изучение которого ушло несколько месяцев), и начал правильно применять его при разработке (а он как раз и нужен для разработки, в большей степени), то почувствовал, как будто обрёл какую-то сверхспособоность. Смотря на свой опыт изучения Докера, я понял, что мне есть что рассказать, и чем поделиться. В этой статье я постарался создать максимально понятную для новичков инструкцию, благодаря которой вы сможете <strong>полностью изучить Docker за 30 минут</strong>. Я долго думал о том, чтобы написать туториал, и наконец-то осилил эту задачу, и, как мне кажется, получилось неплохо :)</p>
+<p>Эта инструкция так же подходит для тех, кто не имеет никаких знаний, или опыта работы с докером, или аналогичным программным обеспечением. Вы получите все важные знания, необходимые для работы. Статья построена по принципу от простого к сложному. В итоге статьи вы будете чётко понимать, <strong>что такое Docker</strong>, зачем нужен, как с ним работать, и применять его для разработки: создавать окружение, необходимое для создания вашего приложения.</p>
+<p>Эта статья, в больше мере, нацелена на получение практических знаний, и только немного теории, построенной на аналогиях из жизни. Потому, эта статья имеет окрас веселья и лайтовости, в большей мере, чем супер-конкретики и теоретических нюансов.</p>
+<blockquote>
+<p>В этом туториале я показываю всё на примере ОС Windows 10, делая все команды из консоли винды, и демонстрируя <strong>процесс установки Docker на Windows 10</strong>. Но, все команды будут работать аналогично и на Linux и Mac. Эта статья - это продолжение ряда статей, посвященных настройке рабочего окружения. В прошлой статье мы рассматривали работу с <a href="https://badcode.ru/kak-ustanovit-laravel-homstead-na-windows/" target="_blank">Vagrant</a>, что не менее интересно, чем Docker. И Docker и Vagrant преследуют цель - упростить жизнь разработчикам, но с Докером открывается больше возможностей.</p>
+<p>Так же, прошу заметить, если вы используете Vagrant, и решите установить Docker, то <strong>Vagrant перестанет работать</strong>. Такая жизнь, но с этим можно смириться, тем более, субъективно, Docker круче ^^.</p>
+</blockquote>
+<h2 id="">Что вы узнаете из этой статьи</h2>
+<ul>
+<li><a href="#whai_id_docker">Как работает Docker?</a></li>
+<li><a href="#how_install_docker">Как установить Docker на Windows?</a></li>
+<li><a href="#what_is_docker_image">Что такое Docker Image (образ)?</a></li>
+<li><a href="#what_is_docker_container">Что такое Docker контейнер?</a></li>
+<li><a href="#what_is_docker_volumes">Что такое Docker Volumes?</a></li>
+<li><a href="#what_is_docker_dockerfile">Что такое Dockerfile?</a></li>
+<li><a href="#how_mount_local_dir_in_docker">Как пробрасывать локальную папку в контейнер Докера (монтирование папки)?</a></li>
+<li><a href="#how_map_docker_ports">Как работают и пробрасываются Docker порты?</a></li>
+<li><a href="#how_docker_cache_layers">Слои Docker образа, особенности создания образов.</a></li>
+<li><a href="#what_is_docker_compose">Что такое Docker-compose?</a></li>
+<li><a href="#what_is_docker_microservices">Что такое микросервисы и микросервисная архитектура?</a></li>
+</ul>
+<div id="whai_id_docker"></div>
+<h2 id="docker">Что такое Docker</h2>
+<p>О том, как появился Docker:</p>
+<p>Docker - это программное обеспечение, которое начинало с того, что зародилось в одной компании, как внутренний проект <em>platform-as-a-service</em> в компании <em><strong>dotCloud</strong></em>.</p>
+<p>В процессе развития Докера, он вырос из масштабов внутреннего проекта, стал доступен для широких масс, и затмил своей популярностью своего родителя <em>dotCloud</em>, из-за чего было принято решение создать новую отдельную компанию под названием <em>Docker Incorporated</em>. Направление новосозданной компании было только в разработке Докера, и развитию его экосистемы.</p>
+<p>На сайте <a href="https://www.docker.com/" target="_blank">доккера</a> можно найти статью, в которой рассказывается, <strong>что такое Docker</strong>. Из их слов - это стандартизированное пакетное программное обеспечение, для разработки и развёртывания проектов.</p>
+<p>Но, что это на самом деле значит?</p>
+<p>Давайте на секунду забудем про Докер, и вспомним про такую ностальгическую штуку, как <em>GameBoy Color</em>:<img src="/content/images/2018/11/game-boy-coloe.jpg" alt="game-boy-coloe"></p>
+<p>Если вы помните, игры для этой приставки поставлялись в виде картриджей:<img src="/content/images/2018/11/cartrige.jpg" alt="cartrige"></p>
+<p>И я уверен в том, что производители видео игр пользуются успехом из-за своей простоты:</p>
+<ol>
+<li>Когда ты хочешь поиграть, ты просто вставляешь картридж в приставку, и игра сразу же работает.</li>
+<li>Ты можешь поделиться своей игрой с друзьями, передав всего лишь картридж, который они вставят в приставку, и сразу же смогут играть.</li>
+</ol>
+<blockquote>
+<p>Docker следует похожему принципу - позволяет запускать своё ПО настолько просто, что это соизмеримо с вставкой картриджа и нажатием кнопки ON на приставке.<br>
+Это основная суть, почему Docker настолько полезен - теперь кто угодно, у кого установлен Docker может запустить приложение, написанное с запуском под Docker, выполнив для этого всего несколько команд.</p>
+</blockquote>
+<p>Раньше, вы, создавая приложения, к примеру на PHP, устанавливали локально <em>PHP</em>, <em>MySql</em>, возможно, <em>NodeJs</em>, при этом устанавливая зависимости в виде нужных расширений и библиотек. И, в случае передачи вашего скрипта какому-то знакомому, ему требовалось настраивать аналогичное окружение, аналогичных версий, иметь аналогичные расширения и конфигурацию, чтобы успешно запустить ваше приложение. Сейчас же, при использовании Докера, такой проблемы не возникнет впринципе. Теперь вам достаточно иметь установленную программу Docker, которая по одной вашей команде установит окружение, описанное для запуска вашего приложения.</p>
+<p>Какое программное обеспечение можно запустить с помощью докера? В техническом плане, Docker чем-то похож на виртуальную машину:</p>
+<blockquote>
+<p>Докер - это движок, который запускает виртуальную операционную систему, имеющую чрезвычайно маленький вес (в отличие от Vagrant-а, который создаёт полноценную виртуальную ОС, Докер, имеет особые образы ПО, запускающиеся в виртуальной среде, не создавая полную копию ОС).</p>
+<p>Docker позволяет запустить ОС Linux в изолированной среде очень быстро, в течение нескольких минут.</p>
+</blockquote>
+<h2 id="docker">Зачем использовать Docker?</h2>
+<p><strong>Кошмар при установке ПО</strong>, с которым приходится сталкиваться. У вас когда-нибудь было такое, что вы пытаетесь установить ПО на ваш компьютер, а оно отказывается работать? Вы получаете несколько непонятных вам ошибок, из-за которых ничего не запускается. И после нескольких часов гугления, на десятой странице гугла...и на каком-то форуме, до этого неизвестного вам, вы наконец-то находите случайный комментарий, которые помогает пофиксить вашу проблему.</p>
+<p>Аналогично, что делает написание PC игр более сложным, чем написание <em><strong>Game Boy</strong></em> игр - это то, что приходится проектировать систему с учётом большого множества существующих PC девайсов и спецификаций. Так как разные компьютеры имеют различные операционные системы, драйвера, процессоры, графические карты, и т.д.<br>
+И потому задача разработчика - написать приложение совместимое со всеми популярными системами, что затруднительно и трудоёмко.</p>
+<p><strong>Docker спасёт нас</strong>. <em>Docker</em>, как и <em>Game Boy</em> приставка, берёт стандартизированные части программного обеспечения и запускает их так, как <em>Game Boy</em> запускал бы игру.</p>
+<blockquote>
+<p>В этом случае вы не должны беспокоиться об операционной системе, на которой пользователь будет запускать ваше приложение. Теперь, когда пользователи будут запускать приложение через Docker - конфигурация будет собрана автоматически, и код будет выполняться всегда.</p>
+</blockquote>
+<p>Как <strong>для разработчика</strong>, теперь вы не должны волноваться о том, на какой системе будет запущено ваше приложение.<br>
+<strong>Как пользователь</strong>, вам не нужно волноваться о том, что вы скачаете неподходящую версию ПО (нужного для работы программы). В Докере эта программа будет запущена в аналогичных условиях, при которых это приложение было разработано, потому, исключается факт получить какую-то новую, непредвиденную ошибку. Для пользователя все действия сводятся к принципу <em>подключи и играй</em>.</p>
+<div id="how_install_docker"></div>
+<h2 id="docker">Установка Docker</h2>
+<p>Docker доступен для любой из операционных систем: Windows, Linux, Max. Для скачивания установочного файла - перейдите по <a href="https://www.docker.com/products/docker-engine" target="_blank">ссылке</a> и выберите подходящую вам версию. Я же, как и писал ранее, выбираю версию docker для Windows 10.</p>
+<p>Docker предоставляет 2 сборки:</p>
+<ul>
+<li><strong>Community Edition</strong> (полностью бесплатная версия)</li>
+<li><strong>Enterprise Edition</strong> (платно). <em>Enterprise Edition</em> содержит в себе дополнительные <s>свистелки-перделки</s> функции, которые, на данном этапе, точно не нужны. Функциональность, которую мы будем использовать совершенно не отличается в этих двух сборках.</li>
+</ul>
+<p>После установки потребуется перезагрузка системы, и уже можно начинать полноценно работать с Докером.</p>
+<p>Для того, чтобы проверить, запущен ли Docker, откроем командную строку (на Windows 10 - Нажмите кнопку windows, и начните писать <strong>командная строка</strong>)<img src="/content/images/2018/11/command-call.jpg" alt="command-call"><br>
+Где, напишем команду <code>docker</code>, и в случае успешно работающего докера, получим ответ <img src="/content/images/2018/11/command-docker.jpg" alt="command-docker"><br>
+Дальше, нужно удостовериться, что вместе с докером, доступен так же, <code>docker-compose</code>, для этого, выполним команду <code>docker-compose</code> (вывод обеих команд будет примерно одинакового содержания).</p>
+<blockquote>
+<p>Если вы используете Linux, то, <strong>docker-compose</strong> нужно будет устанавливать отдельно по <a href="https://docs.docker.com/compose/install/#install-compose" target="_blank">инструкции</a>.</p>
+</blockquote>
+<div id="what_is_docker_image"></div>
+<h2 id="dockerimage">Что такое Docker Image?</h2>
+<p>Docker образ (он же <em>Docker Image</em>), похож на <em>Game Boy</em> картридж - это просто программное обеспечение. Это стандартизированное программное обеспечение, которое запускается на любой приставке <em>Game Boy</em>. Вы можете дать игру вашему другу, и он сможет просто вставить картридж в приставку, и играть.</p>
+<p>Как в случае с картриджами, бывают различные игры, так и Docker имеет различные образы ПО: <em>ubuntu</em>, <em>php</em> (который наследуется от оригинального образа Ubuntu), <em>nodejs</em>, и т.д.</p>
+<p>Рассмотрим пример скачивания нашего первого образа. Для этого, существует команда:<br>
+<code class="lang-html">docker pull &lt;IMAGE_NAME&gt;</code>, где <em>&lt;IMAGE_NAME&gt;</em> - имя скачиваемого образа</p>
+<p>Зная эту команду, скачаем образ <code>Ubuntu 18.10</code>:</p>
+<pre><code class="lang-css">docker pull ubuntu:18.10</code></pre>
+<p><img src="/content/images/2018/11/docker-pull-ubuntu-18.png" alt="docker-pull-ubuntu-18"></p>
+<p>Эта команда сообщает Докеру о том, что нужно скачать образ <em>Ubuntu 18.10</em> с <a href="http://dockerhub.com" target="_blank">Dockerhub.com</a> (не путать с pornhub) - основной репозиторий <em>Docker</em>-образов, на котором вы и можете посмотреть весь их список и подобрать нужный образ для вашей программы.</p>
+<p>Это как поездка за новым картриджем в магазин, только намного быстрее :).</p>
+<p>Теперь, для того, чтобы посмотреть список всех загруженных образов, нужно выполнить:</p>
+<pre><code class="lang-html">docker images</code></pre>
+<p><img src="/content/images/2018/11/docke-images.png" alt="docke-images"></p>
+<p>У вас, как и на скрине, должен появиться только что скачанный образ <em>Ubuntu 18.10</em>. И, как обсуждалось выше, по поводу маленького размера образов, чистый образ Ubuntu при установке из Docker-образа, весит всего 74 МБ. Не чудо ли?</p>
+<p>Проводя аналогии, команда <code>docker images</code> выглядит как коллекция картриджей от приставки, которые у вас есть сейчас:<img src="/content/images/2018/11/Depositphotos_194136098_xl-2015.jpg" alt="Depositphotos_194136098_xl-2015"></p>
+<div id="what_is_docker_container"></div>
+<h2 id="docker">Что такое Docker контейнер?</h2>
+<p>Теперь представьте, что мы обновили нашу приставку с <em>Game Boy</em> на <em>GameCube</em>. Игры хранятся на диске, который предназначен только для чтения самого образа игры. А прочие файлы (сохранения, кеш и т.д.) сохраняются внутри самой приставки, локально.</p>
+<p>Так же, как и игра на диске, исходный Docker Image (образ) - <strong>неизменяемый</strong>.</p>
+<blockquote>
+<p><em>Docker контейнер</em> - это экземпляр запущенного образа. Аналогично тому, что вы вставляете диск в приставку, после чего игра начинается.<br>
+А сам образ игры никак не модифицируется, все файлы, содержащие изменения хранятся где-то локально на приставке.</p>
+</blockquote>
+<p><img src="/content/images/2018/11/Depositphotos_194135642_xl-2015.jpg" alt="Depositphotos_194135642_xl-2015"></p>
+<blockquote>
+<p>Запуск Docker контейнера соответствует тому, что вы играете в свою Gamecube игру. Docker запускает ваш образ в своей среде, аналогично тому, как Gamecube запускает игру с диска, не модифицируя оригинальный образ, а лишь сохраняя изменения и весь прогресс в какой-то песочнице.</p>
+</blockquote>
+<p>Для запуска контейнера существует команда: <pre><code class="lang-html">docker run &lt;image&gt; &lt;опциональная команды, которая выполнится внутри контейнера&gt;</code></pre></p>
+<p>Давайте запустим наш первый контейнер Ubuntu: <pre><code class="lang-php">docker run ubuntu:18.10 echo 'hello from ubuntu'</code></pre><br>
+<img src="/content/images/2018/11/docker-run.png" alt="docker-run"></p>
+<p>Команда <code>echo 'hello from ubuntu'</code> была выполнена внутри среды <em>Ubuntu</em>. Другими словами, эта команда была выполнена в <em><strong>контейнере ubuntu:18.10</strong></em>.</p>
+<p>Теперь выполним команду для проверки списка запущенных контейнеров:<pre><code class="lang-html">docker ps</code></pre><br>
+<img src="/content/images/2018/11/docker-ps.png" alt="docker-ps"></p>
+<p>Здесь пустота... это потому что <code>docker ps</code> показывает только список контейнеров, которые запущены в данный момент (наш же контейнер выполнил одну команду <code>echo 'hello from ubuntu'</code> и завершил свою работу). А для того, чтобы посмотреть список всех контейнеров без исключения, нужно добавить флаг <code>-a</code>, выполним: <pre><code class="lang-html">docker ps -a</code></pre><img src="/content/images/2018/11/docker-ps-a.jpg" alt="docker-ps-a"></p>
+<p>Когда процесс внутри контейнера выполнит работу, то <em>Docker-контейнер</em> завершается. Это похоже на режим сохранения энергии в новых игровых консолях - если вы не совершаете действий какое-то время, то система выключается автоматически.</p>
+<p>Каждый раз, когда вы будете выполнять команду <code>docker run</code>, будет создаваться новый контейнер, на каждую из выполненных команд.</p>
+<p>Давайте добавим немного интерактивности в наше обучение. Мы можем подключиться к консоли виртуальной ОС (Ubuntu 18.10), и выполнять любое количество команд без завершения работы контейнера, для этого, запустим команду:</p>
+<pre><code class="lang-js">docker run -it ubuntu:18.10 /bin/bash
+</code></pre><br>
+<p>Опция <code>-it</code> вместе с <code>/bin/bash</code> даёт доступ к выполнению команд в терминале внутри контейнера <em>Ubuntu</em>. Теперь, внутри этого контейнера можно выполнять любые команды, применимые к <em>Ubuntu</em>. Вы же можете представлять это как мини виртуальную машину, условно, к консоли которой мы подключились по <em>ssh</em>. В результате, теперь мы знаем возможные способы, как войти в контейнер, и <strong>как выполнить команду в контейнере</strong> Docker-а.</p>
+<p>Иногда является очень полезным узнать ID контейнера, с которым мы работаем. И как раз-таки, при выполнении команды <code>docker run -it &lt;IMAGE&gt; /bin/bash</code>, мы окажемся в терминале, где все команды будут выполняться от имени пользователя <code>root@&lt;containerid&gt;</code>.</p>
+<p>Теперь, все команды буду выполняться внутри операционной системы Ubuntu. Попробуем, например, выполнить команду <code>ls</code>, и посмотрим, список директорий, внутри этого образа Ubuntu.<img src="/content/images/2018/11/docker-ubuntu-ls.png" alt="docker-ubuntu-ls"></p>
+<p>Docker контейнер является полностью независимым от системы хоста, из которой он запускался. Как изолированная виртуальная машина. И в ней вы можете производить любые изменения, которые никак не повлияют на основную операционную систему.</p>
+<p>Это аналогично тому, как, если бы вы играли в <em>Mario Kart</em> на приставке <em>Gamecube</em>, и неважно, что вы делаете в игре, вы никак не сможете изменить само ядро игры, или изменить информацию, записанную на диске.</p>
+<p><strong>Контейнер</strong> является полностью независимым и изолированным от основной операционной системы, аналогично виртуальной операционной системе. Вы можете вносить любые изменения внутри виртуалки, и никакие из этих изменений не повлияют на основную операционную систему.</p>
+<p>Теперь откройте <strong>новое окно терминала</strong> (не закрывая и не отключаясь от текущего), и выполните команду <code class="lang-js">docker ps</code><br>
+<img src="/content/images/2018/11/docker-ps-new-window.png" alt="docker-ps-new-window"></p>
+<p>Только на этот раз вы можете увидеть, что контейнер с <em>Ubuntu 18.10</em> в текущий момент запущен.</p>
+<p>Теперь вернёмся назад к первому окну терминала (который находится внутри контейнера), и выполним:<pre><code class="lang-php">mkdir /truedir  #создаст папку truedir<br>
+exit #выйдет из контейнера, и вернётся в основную ОС</code></pre></p>
+<p>Выполнив команду <code>exit</code>, контейнер будет остановлен (чтобы убедиться, можете проверить командой <code>docker ps</code>). Теперь, вы так же знаете, <strong>как выйти из Docker контейнера</strong>.</p>
+<p>Теперь, попробуем ещё раз просмотреть список всех контейнеров, и убедимся, что новый контейнер был создан <code>docker ps -a</code><img src="/content/images/2018/11/docker-ps--a2.png" alt="docker-ps--a2"></p>
+<p>Так же, для того, чтобы запустить ранее созданный контейнер, можно выполнить команду <code class="lang-html">docker start &lt;CONTAINER_ID&gt;</code>,</p>
+<p>где <strong>CONTAINER_ID</strong> - id контейнера, который можно посмотреть, выполнив команду <code>docker ps -a</code> (и увидеть в столбце CONTAINER_ID)</p>
+<blockquote>
+<p>В моём случае, CONTAINER_ID последнего контейнера = 7579c85c8b7e (у вас же, он будет отличаться)</p>
+</blockquote>
+<p>Запустим контейнер командой: <pre><code class="lang-php">docker start 7579c85c8b7e    #ваш CONTAINER_ID<br>
+docker ps<br>
+docker exec -it 7579c85c8b7e /bin/bash  #ваш CONTAINER_ID<br>
+</code></pre></p>
+<blockquote>
+<p>И теперь, если внутри контейнера выполнить команду <code>ls</code>, то можно увидеть, что ранее созданная папка <mark>truedir</mark> существует в этом контейнере<img src="/content/images/2018/11/docker-exex-truedir.png" alt="docker-exex-truedir"></p>
+</blockquote>
+<p>Команда <code>exec</code> позволяет выполнить команду внутри запущенного контейнера. В нашем случае, мы выполнили <code>/bin/bash</code>, что позволило нам подключиться к терминалу внутри контейнера.</p>
+<p>Для выхода, как обычно, выполним <code>exit</code>.</p>
+<p>Теперь остановим и удалим Docker контейнеры (командами <code>docker stop &lt;CONTAINER_ID&gt;</code> и <code>docker rm &lt;CONTAINER_ID&gt;</code> соотвественно): <pre><code class="lang-php">docker ps a   # просмотрим список активных контейнеров<br>
+docker stop aa1463167766   # остановим активный контейнер<br>
+docker rm aa1463167766     # удалим контейнер<br>
+docker rm bb597feb7fbe     # удалим второй контейнер<br>
+</code></pre></p>
+<blockquote>
+<p>В основном, нам не нужно, чтобы в системе плодилось большое количество контейнеров. Потому, команду <em>docker run</em> очень часто запускают с дополнительным флагом <mark>--rm</mark>, который удаляет запущенный контейнер после работы:<br>
+<code>docker run -it --rm ubuntu:18.10 /bin/bash</code></p>
+</blockquote>
+<div id="what_is_docker_dockerfile"></div>
+<h2 id="dockerfile">Что такое DockerFile?</h2>
+<p>Docker позволяет вам делиться с другими средой, в которой ваш код запускался и помогает в её простом воссоздании на других машинах.</p>
+<blockquote>
+<p>Dockerfile - это обычный конфигурационный файл, описывающий пошаговое создание среды вашего приложения. В этом файле подробно описывается, какие команды будут выполнены, какие образы задействованы, и какие настройки будут применены. А движок <em>Docker-а</em> при запуске уже распарсит этот файл (именуемый как <strong>Dockerfile</strong>), и создаст из него соответствующий образ <em>(Image)</em>, который был описан.</p>
+<p>К примеру, если вы разрабатывали приложение на <em>php7.2</em>, и использовали <em>ElasticSearch 9</em> версии, и сохранили это в <em>Dockerfile</em>-е, то другие пользователи, которые запустят образ используя ваш <em>Dockerfile</em>, получат ту же среду с <em>php7.2</em> и <em>ElasticSearch 9</em>.</p>
+</blockquote>
+<p>С <em>Dockerfile</em> вы сможете подробно описать инструкцию, по которой будет воссоздано конкретное состояние. И делается это довольно-таки просто и интуитивно понятно.</p>
+<h3 id="">Представьте, что вы играете в покемонов</h3>
+<p>Вы пытаетесь пройти первый уровень, но безрезультатно. И я, как ваш друг, хочу с этим помочь. У меня есть 2 <s>таблетки</s> варианта:</p>
+<ol>
+<li>Я дам вам файл сохранений, в котором игра ничинается со второго уровня. Всё что вам нужно - это загрузить файл.</li>
+<li>Я могу написать инструкцию, в которой опишу шаг за шагом процесс прохождения уровня. Это как рецепт, которому нужно будет следовать в точности, как описано. Эта инструкция могла бы выглядеть как-то так:</li>
+</ol>
+<blockquote>
+<p>Инструкция прохождения первого уровня</p>
+</blockquote>
+<ul>
+<li>Выбрать покемона <em>Squirtle</em></li>
+<li>Направляйтесь к лесу, к северу от города</li>
+<li>Тренируйтесь, пока покемон не достигнет 10 уровня</li>
+<li>Направляйтесь в Оловянный город</li>
+<li>Подойдите к боссу, и победите его заклинанием <em>Watergun</em></li>
+</ul>
+<p>Что является более полезным? Я склоняюсь, что это второй вариант. Потому что он демонстрирует, как добиться желаемого состояния. Это не просто чёрный ящик, который переносит игру на второй уровень.</p>
+<p>С докером вы так же имеете два варианта при создании образа:</p>
+<ol>
+<li>Вы можете запаковать ваш контейнер, создать из него образ (аналогично тому, что вы запишите на диск новую игру с собственными модификациями). Это похоже на способ, когда вы делитесь сохранениями напрямую.</li>
+<li>Или же, можно описать <em>Dockerfile</em> - подробную  инструкцию, которая приведёт среду к нужному состоянию.</li>
+</ol>
+<p>Я склоняюсь ко второму варианту, потому что он более подробный, гибкий, и редактируемый (вы можете переписать <em>Dockerfile</em>, но не можете перемотать состояние образа в случае прямых изменений).</p>
+<p>Пришло время попрактиковаться на реальном примере. Для начала, создадим файл <mark>cli.php</mark> в корне проекта с содержимым:</p>
+<pre><code class="lang-php">&lt;?php
+$n = $i = 5;
+
+while ($i--) {
+    echo str_repeat(' ', $i).str_repeat('* ', $n - $i)."\n";
+}
+</pre></code>
+<br>
+<p>И файл под названием <mark>Dockerfile</mark>, с содержимым:</p>
+<pre><code class="lang-php">FROM php:7.2-cli
+COPY cli.php /cli.php
+RUN chmod +x /cli.php
+CMD php /cli.php
+</pre></code>
+<br>
+<p>Имена команд в Dockerfile (выделенные красным) - это синтаксис разметки <em>Dockerfile</em>. Эти команды означают:</p>
+<ul>
+<li><strong>FROM</strong> - это как буд-то вы выбираете движок для вашей игры (<em>Unity</em>, <em>Unreal</em>, <em>CryEngine</em>). Хоть вы и могли бы начать писать движок с нуля, но больше смысла было бы в использовании готового. Можно было бы использовать, к примеру, <em>ubuntu:18.10</em>, в нашем коде используется образ <em>php:7.2-cli</em>, потому весь код будет запускаться внутри образа с предустановленным php 7.2-cli.</li>
+<li><strong>COPY</strong> - Копирует файл с основной системы в контейнер (копируем файл <em>cli.php</em> внутрь контейнера, с одноимённым названием)</li>
+<li><strong>RUN</strong> - Выполнение shell-команды из терминала контейнера (в текущем случае, присвоим права на выполнение скрипта <em>/cli.php</em></li>
+<li><strong>CMD</strong> - Выполняет эту команду каждый раз, при новом запуске контейнера</li>
+</ul>
+<p>Для просмотра полного списка команд можете перейти по <a href="https://docs.docker.com/engine/reference/builder/#from" target="_blank">ссылке</a></p>
+<blockquote>
+<p>При написании <em>Dockerfile</em>, начинать следует с наиболее актуального существующего образа, дополняя его в соответствии с потребностями вашего приложения.<br>
+К примеру, мы могли не использовать образ <em>php:7.2-cli</em>, а могли взять <em>ubuntu:18.10</em>, последовательно выполняя команды в RUN одна за одной, устанавливая нужное ПО. Однако, в этом мало смысла, когда уже есть готовые сборки.</p>
+</blockquote>
+<p>Для создания образа из <em>Dockerfile</em> нужно выполнить: <br> <code class="lang-html">docker build &lt;DOCKERFILE_PATH&gt; --tag &lt;IMAGE_NAME&gt;</code><br>
+<em>&lt;DOCKERFILE_PATH&gt;</em> - путь к файлу <em>Dockerfile</em> (<code>.</code> - текущая директория),<br>
+<em>&lt;IMAGE_NAME&gt;</em> - имя, под которым образ будет создан</p>
+<p>Выполним: <pre><code class="lang-html">docker build . --tag pyramid</code></pre></p>
+<blockquote>
+<p>При том, что имя файла <strong>Dockerfile</strong> при указывании пути упускается, нужно указывать только директорию, в которой этот файл находится (а <code>.</code> означает, что файл находится в той директории, из которой была запущена консоль)</p>
+</blockquote>
+<p><img src="/content/images/2019/05/build-image-1.png" alt="build-image-1"></p>
+<p>После того, как команда выполнилась, мы можем обращаться к образу по его имени, которое было указано в <strong>&lt;IMAGE_NAME&gt;</strong>, проверим список образов: <code>docker images</code><br>
+<img src="/content/images/2018/11/images-piramyd.png" alt="images-piramyd"></p>
+<p>Теперь, запустим контейнер из нашего образа командой <code>docker run pyramid</code><br>
+<img src="/content/images/2018/11/run-pyramid.png" alt="run-pyramid"></p>
+<p>Круто! Shell скрипт был успешно скопирован, и выполнен благодаря указанному в <em>Dockerfile</em> параметру <strong>CMD</strong>.</p>
+<p>Сначала мы скопировали файл <em>cli.php</em> в Docker образ, который создался с помощью <em>Dockerfile</em>. Для того, чтобы удостовериться в том, что файл действительно был проброшен внутрь контейнера, можно выполнить команду <code>docker run pyramid ls</code>, которая в списке файлов покажет и <em>cli.php</em>.</p>
+<p>Однако, сейчас этот контейнер недостаточно гибкий. Нам бы хотелось, чтобы можно было удобно изменять количество строк, из скольки состоит пирамида.</p>
+<p>Для этого, отредактируем файл <em>cli.php</em>, и изменим, чтобы количество аргументов принималось из командной строки. Отредактируем вторую строку на: <pre><code class="language-php">$n = $i = $argv[1] ?? 5; //а было $n = $i = 5<br>
+// это значит, что мы принимаем аргумент из консоли, а если он не получен, то используем по-умолчанию 5</code></pre></p>
+<p>После чего, пересоберём образ: <code>docker build . --tag pyramid</code><br>
+И запустим контейнер: <code>docker run pyramid php /cli.php 9</code>, получив вывод <s>ёлки</s> пирамиды в 9 строк<br>
+<img src="/content/images/2019/05/cli_arg.png" alt="cli_arg"></p>
+<p>Почему это работает?<br>
+Когда контейнер запускается, вы можете переопределить команду записанную в <em>Dockerfile</em> в поле <strong>CMD</strong>.</p>
+<p>Наша оригинальная <strong>CMD</strong> команда, записанная в Dockerfile <code>php /cli.php</code> - будет переопределена новой <code>php /cli.php 9</code>.<br>
+Но, было бы неплохо передавать этот аргумент самому контейнеру, вместо переписывания всей команды. Перепишем так, чтобы вместо команды <code>php /cli.php 7</code> можно было передавать просто аргумент-число.</p>
+<p>Для этого, дополним <strong>Dockerfile</strong>:</p>
+<pre><code class="lang-php">FROM php:7.2-cli
+COPY cli.php /cli.php
+RUN chmod +x /cli.php
+ENTRYPOINT ["php", "/cli.php"]
+## аргумент, который передаётся в командную строку
+CMD  ["9"]</code></pre> <br>
+<p>Мы немного поменяли формат записи. В таком случае, <em>CMD</em> будет добавлена к тому, что выполнится в <em>ENTRYPOINT</em>.</p>
+<p><code>[&quot;php&quot;, &quot;/cli.php&quot;]</code> на самом деле запускается, как <code>php /cli.php</code>. И, учитывая то, что <strong>CMD</strong> будет добавлена после выполнения текущей, то итоговая команда будет выглядеть как: <code>php /cli.php 9</code> - и пользователь сможет переопределить этот аргумент, передавая его в командную строку, во время запуска контейнера.</p>
+<p>Теперь, заново пересоберём образ</p>
+<pre><code class="lang-php">docker build . --tag pyramid</code></pre><br>
+<p>И запустим контейнер с желаемым аргументом</p>
+<pre><code class="lang-php">docker run pyramid 3</code></pre>
+<p><img src="/content/images/2019/05/result-3.png" alt="result-3"></p>
+<div id="how_mount_local_dir_in_docker"></div>
+<h2 id="docker">Монтирование локальной директории в Docker-контейнер</h2>
+<p>Монтирование директории в Docker контейнер - это предоставление доступа контейнеру на чтение содержимого вашей папки из основной операционной системы. Помимо чтения из этой папки, так же, контейнер может её изменять, и такая связь является двусторонней: при изменении файлов в основной ОС изменения будут видны в контейнере, и наоборот.</p>
+<p>Когда игра читает файлы сохранений, файловая система <em>Game Cube</em> внедряет их в текущий сеанс игры (представим это, даже если это не так). Игра может изменять файл сохранений, и это изменение отразится на файловой системе <em>Game Cube</em>, т.е. возникает двусторонняя связь.</p>
+<blockquote>
+<p>Монтирование директории в контейнер позволяет ему читать и писать данные в эту директорию, изменяя её состояние.</p>
+</blockquote>
+<p>Для того, чтобы смонтировать папку из основной системы в контейнер, можно воспользоваться командой<br>
+<code>docker run -v &lt;DIRECTORY&gt;:&lt;CONTAINER_DIRECTORY&gt; ...</code>,<br>
+где <em>DIRECTORY</em> - это путь к папке, которую нужно смонтировать,<br>
+<em>CONTAINER_DIRECTORY</em> - путь внутри контейнера.</p>
+<blockquote>
+<p>Только путь к монтируемой папке должен быть прописан полностью: <code>C:\projects\docker-example</code>, или на *nix-системах можно воспользоваться конструкцией <code>$(pwd)</code></p>
+</blockquote>
+<p>Выполним команду:</p>
+<pre><code class="lang-js">docker run -it -v C:\projects\docker-example\cli:/mounted  ubuntu:18.10 /bin/bash
+ls
+ls mounted
+touch mounted/testfile</pre></code>
+<br>
+<p>При выполнении этой команды, указанная папка смонтируется в папку <strong>/mounted</strong>, внутри файловой системы контейнера, а команда <code>touch mounted/testfile</code> создаст новый файл под названием <em>testfile</em>, который вы можете увидеть из основной ОС.</p>
+<p>Теперь вы можете увидеть, что после выполнения этой команды в текущей директории появился новый файл <em>testfile</em>. И это говорит о том, что двусторонняя связь работает - при изменении директории на основной ОС всё отразится на смонтированную папку внутри контейнера, а при изменениях изнутри контейнера всё отразится на основную ОС.</p>
+<blockquote>
+<p>Монтирование папки позволяет вам изменять файлы вашей основной системы прямо во время работы внутри Docker контейнера.</p>
+</blockquote>
+<p>Это удобная особенность, которая позволяет нам редактировать код в редакторе на основной ОС, а изменения будут сразу же применяться внутри контейнера.</p>
+<div id="what_is_docker_volumes"></div>
+<h2 id="dockervolumes">Что такое Docker Volumes?</h2>
+<p><em>Docker Volumes</em> - что-то похоже на карты памяти для <em>Game Cube</em>. Эта карта памяти содержит данные для игры. Эти карты съемные, и могу работать, когда <em>Gamecube</em> приставка выключается. Вы так же можете подключить различные карты памяти, содержащие разные данные, а так же, подключать к разным приставкам.</p>
+<blockquote>
+<p>Вы можете вставить вашу карту внутрь приставки, точно так же, как и Docker Volume может быть прикреплён к любому из контейнеров.</p>
+</blockquote>
+<p>С <em>Docker Volum-ами</em> мы имеем контейнер, который хранит постоянные данные где-то на нашем компьютере (это актуально, потому что после завершения работы контейнер удаляет все пользовательские данные, не входящие в образ). Вы можете прикрепить Volume-данные к любому из запущенных контейнеров.</p>
+<p>Вместо того, чтобы каждый раз, при запуске контейнера, писать, какие из папок вы хотите смонтировать, вы просто можете создать один контейнер с общими данными, который потом будете прикреплять.</p>
+<p>Лично я, не использую это очень часто на практике, потому что есть много других методов по управлению данными. Однако, это может быть очень полезно для контейнеров, которые должны сохранять какие-то важные данные, или данные, которыми нужно поделиться между несколькими контейнерами.</p>
+<div id="how_map_docker_ports"></div>
+<h2 id="">Порты контейнеров</h2>
+<p>Docker позволяет нам получить доступ к какому-то из портов контейнера, пробросив его наружу (в основную операционную систему). По умолчанию, мы не можем достучаться к каким-либо из портов контейнера. Однако, в <em>Dockerfile</em> опция <code>EXPOSE</code> позволяет нам объявить, к какому из портов мы можем обратиться из основной ОС.</p>
+<p>Для этого, на по-быстрому, запустим Docker-образ <em>php-apache</em>, который работает на 80 порту.</p>
+<p>Для начала, создадим новую папку <mark>apache</mark> (перейдём в неё <code>cd apache</code>), в которой создадим файл <code>index.php</code>, на основе которого мы и поймём, что всё работает.</p>
+<pre><code class="lang-php">&lt;?php
+echo 'Hello from apache. We have PHP version = ' . phpversion() . PHP_EOL;
+</pre></code><br>
+<p>А так же, в этой папке создадим файл <code>Dockerfile</code>:</p>
+<pre><code class="lang-php">FROM php:7.2-apache
+# Указываем рабочую папку
+WORKDIR /var/www/html
+# Копируем все файлы проекта в контейнер
+COPY . /var/www/html
+EXPOSE 80</code></pre>
+<br>
+<p>Пробежимся по командам:<br>
+<strong>FROM</strong>: это вам уже знакомо, это образ с уже установленным php и apache<br>
+<strong>WORKDIR</strong>: создаст папку если она не создана, и перейдёт в неё. Аналогично выполнению команд <code>mkdir /var/www/html &amp;&amp; cd /var/www/html</code><br>
+<strong>EXPOSE</strong>: Apache по-умолчанию запускается на 80 порту, попробуем &quot;прокинуть&quot; его в нашу основную ОС (посмотрим как это работает через несколько секунд)</p>
+<p>Для работы с сетью в Docker, нужно проделать 2 шага:</p>
+<ul>
+<li>Прокинуть системный порт (<em>Expose</em>).</li>
+<li>Привязать порт основной ОС к порту контейнера (выполнить соответствие).</li>
+</ul>
+<p>Это что-то похоже на подключение вашей PS4 приставки к телевизору по HDMI кабелю. При подключении кабеля, вы явно указываете, какой HDMI-канал будет отображать видео.</p>
+<p>В этой аналогии наша основная ОС будет как телевизор, а контейнер - это игровая консоль. Мы должны явно указать, какой порт основной операционной системы будет соответствовать порту контейнера.</p>
+<p><mark>EXPOSE</mark> в Докерфайле разрешает подключение к 80 порту контейнера - как разрешение HDMI подключения к PS4.</p>
+<p>Выполним первый шаг прокидывания порт. Сбилдим контейнер:</p>
+<pre><code class="lang-php">docker build . --tag own_php_apache</pre></code>
+<br>
+<p>И после этого, запустим контейнер:</p>
+<pre><code class="lang-php">docker run own_php_apache</pre></code>
+<p><img src="/content/images/2019/05/apache_call.png" alt="apache_call"></p>
+<p>После чего, попробуем перейти по адресу <a href="http://localhost:80" target="_blank">localhost:80</a></p>
+<p>Но, <em><strong>это не сработало</strong></em>, потому что мы ещё не выполнили 2 шаг по маппингу портов.</p>
+<p>Выйдите из контейнера, нажав <em>CTRL+C</em>.</p>
+<blockquote>
+<p>Если у вас проблемы с остановкой контейнера, в новом окне откройте терминал, выполните <code>docker ps</code>, найдите ID контейнера, который сейчас запущен, и выполните <code>docker stop {CONTAINER_ID}</code> (указав ваш ID контейнера)</p>
+</blockquote>
+<p>Теперь, осталось сообщить нашему компьютеру, какой порт контейнера ему нужно слушать, и для этого формат записи будет такой: <pre><code class="lang-js">docker run -p &lt;HOST_PORT&gt;:&lt;CONTAINER_PORT&gt;</pre></code></p>
+<p>И мы можем указать любое соответствие портов, но сейчас просто укажем, что порт системы 80 будет слушать 80 порт контейнера: <pre><code class="lang-js">docker run -p 80:80 own_php_apache</pre></code></p>
+<p>Здесь, вы уже наверное заметили, что добавился новый параметр <code>-p 80:80</code>, который говорит <em>Docker</em>-у: я хочу, чтобы порт 80 из apache был привязан к моему локальному порту 80.</p>
+<p>И теперь, если перейти по адресу <a href="http://localhost:80" target="_blank">localhost:80</a>, то должны увидеть успешный ответ: <img src="/content/images/2019/05/apache_result.png" alt="apache_result"></p>
+<p>Оказывается, это даже легче, чем подключение HDMI-кабеля. Сейчас, можем попробовать выполнить запуск на разных портах: <pre><code class="lang-js">docker run -p 8080:80 own_php_apache</pre></code><br>
+<img src="/content/images/2019/05/apache_result_8080.png" alt="apache_result_8080"></p>
+<p>Теперь, немного подчистим за собой: нужно остановить и удалить контейнеры, которые в даный момент мы запустили: <pre><code class="lang-js">docker ps<br>
+docker stop &lt;CONTAINER_ID&gt; ...<br>
+docker rm &lt;CONTAINER_ID&gt; ...</pre></code></p>
+<blockquote>
+<p>Для *nix пользователей есть небольшой хак, который позволит остановить и удалить все контейнеры Docker:</p>
+<pre><code class="lang-php">docker stop $(docker ps -a -q)   # Остановит все контейнеры
+docker rm $(docker ps -a -q)     # Удалит все остановленные контейнеры</pre></code>
+</blockquote>
+<p>Запомните, что любой, кто будет запускать этот код на своём компьютере, не должен иметь установленный PHP, всё что ему нужно - один только Docker.</p>
+<div id="how_docker_cache_layers"></div>
+<h2 id="docker">Docker образ: прослойка данных и кеширование</h2>
+<p>Docker умнее, чем вы могли бы подумать :).</p>
+<p>Каждый раз, когда вы собираете образ, он кешируется в отдельный слой. Ввиду того, что образы являются неизменяемыми, их ядро никогда не модифицируются, потому применяется система кеширования, которая нужна для увеличения скорости билдинга.</p>
+<blockquote>
+<p>Каждая команда в Dockerfile сохраняется как отельный слой образа.</p>
+</blockquote>
+<p>Рассмотрим это на примере нашего прошлого Dockerfile-а:</p>
+<pre><code class="lang-php">FROM php:7.2-apache
+# Копирует код ядра
+COPY . /var/www/html
+WORKDIR /var/www/html
+EXPOSE 80</code></pre>
+<br>
+<p>Когда вы пишите свой Dockerfile, вы добавляете слои поверх существующего основного образа (указанного в FROM), и создаёте свой собственный образ (Image).</p>
+<p><em><strong>FROM</strong></em>: говорит Докеру взять за основу этот существующий образ. А все новые команды будут добавлены слоями поверх этого основного образа.<br>
+<em><strong>COPY</strong></em>: копирует файлы с основной ОС в образ<br>
+<em><strong>WORKDIR</strong></em>: устанавливает текущую папку образа в <code>/var/www/html</code></p>
+<p>Слой Образа Докера это как точка сохранения в игре Super Mario. Если вы хотите изменить какие-то вещи, произошедшие до этой точки сохранения, то вам придётся перезапустить этот уровень полностью. Если вы хотите продолжить прогресс прохождения, вы можете начать с того места, где остановились.</p>
+<p>Docker начинает кешировать с &quot;того места, где остановился&quot; во время билдинга Dockerfile. Если в Докерфайле не было никаких изменений с момента последнего билдинга, то образ будет взят полностью из кеша. Если же вы измените какую-то строку в Dockerfile - кеш будет взят только тех слоёв команд, которые находятся выше изменённой команды.</p>
+<p>Для иллюстрации этого, добавим новые строки в Dockerfile:</p>
+<pre><code class="lang-php">FROM php:7.2-apache
+WORKDIR /var/www/html
+# Copy the app code
+COPY . /var/www/html
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl php7.2-mbstring php7.2-zip php7.2-intl php7.2-xml php7.2-json php7.2-curl
+RUN echo "Hello, Docker Tutorial"
+EXPOSE 80</code></pre>
+<br>
+<p>После чего, пересоберём образ: <pre><code class="lang-php">docker build . --tag own_php_apache</code></pre></p>
+<p><img src="/content/images/2019/05/cache.png" alt="cache"><br>
+Выполнив эту команду, из вывода в консоль можете увидеть, что некоторые слои были взяты из кеша. Это как раз те команды, выше которых в Dockerfile не было добавлено/изменено содержимого.</p>
+<p>И можно заметить, что в случае изменения Dockerfile, билдинг занимает больше времени, потому что не используется кеш. Где бы вы не написали команду, все закешированные команды, которые находятся ниже в Dockerfile, будут перебилжены заново. А те, что находятся выше, будут по-прежнему браться из кеша.</p>
+<blockquote>
+<p>Когда вы используете команду <mark>COPY</mark>, она копирует указанную директорию в контейнер. И, в случае изменения содержимого любого из файлов этой директории, кеш команды <mark>COPY</mark> будет сброшен. Docker сверяет изменения во время билдинга в каждом из файлов. Если они были изменены, кеш будет сброшен, как и для всех последующих слоёв.</p>
+</blockquote>
+<p>Если честно, то это действительно крутая функция. Docker следит за изменениями в файлах и использует кеш всегда, когда это нужно (когда были произведены изменения в каких-то из файлов). Изменение ваших файлов потенциально может затрагивать будущие команды, из-за чего, и все последующие слои билдятся заново, а не берутся из кеша.</p>
+<p>Какие выводы из этого можно сделать:</p>
+<ol>
+<li>Команды, которые вероятнее всего не будут меняться в будущем, нужно помещать как можно выше в Dockerfile.</li>
+<li>Команды копирования данных нужно помещать ниже, потому что файлы при разработке изменяются довольно часто.</li>
+<li>Команды, которые требуют много времени на билдинг, нужно помещать выше.</li>
+</ol>
+<p>В заключение, так же хочу сказать, <em><strong>как можно уменьшить размер слоёв Docker образов</strong></em>.<br>
+В Dockerfile вы можете иметь несколько команд (RUN) на выполнение:</p>
+<pre><code class="lang-php">RUN apt-get update
+RUN apt-get install -y wget
+RUN apt-get install -y curl
+</code></pre>
+<br>
+<p>В результате выполнения этой команды, будет создано 3 разных слоя в образе. Вместо этого, все команды стараются объединить в одну строку:</p>
+<pre><code class="lang-php">RUN apt-get update && apt-get install -y wget curl
+</code></pre>
+<br>
+<p>Если команда становится длинной, и нечитаемой, то для переноса на следующую строку делаем так:</p>
+<pre><code class="lang-php">RUN apt-get update && apt-get install -y wget curl && \
+    && apt-get clean -y \
+    && docker-php-ext-install soap mcrypt pdo_mysql zip bcmath
+</code></pre>
+<br>
+<blockquote>
+<p>Если же команда становится слишком большой, и неудобной для чтения, то можно создать новый shell скрипт, в который поместить длинную команду, и запускать этот скрипт одной простой командой <mark>RUN</mark>.</p>
+</blockquote>
+<blockquote>
+<p>Технически, только команды <strong>ADD</strong>, <strong>COPY</strong>, и <strong>RUN</strong> создают новый слой в Docker образе, остальные команды кешируются <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#minimize-the-number-of-layers" target="_blank">по-другому</a></p>
+</blockquote>
+<div id="what_is_docker_compose"></div>
+<h2 id="dockercompose">Что такое Docker-Compose?</h2>
+<p><strong>Docker-compose</strong> это как дирижёр оркестра, где ваш оркестр - это набор контейнеров, которыми нужно управлять. Каждый контейнер имеет отдельную задачу, как и музыкальные инструменты в разных частях песни.</p>
+<blockquote>
+<p>Docker Compose управляет контейнерами, запускает их вместе, в нужной последовательности, необходимой для вашего приложения.<br>
+Его можно назвать дирижёром в мире Docker-а.</p>
+</blockquote>
+<p>Docker-compose организовывает совместных запуск контейнеров, как инструменты в групповой игре в определённых участках песни.</p>
+<p>Каждый инструмент имеет конкретную задачу в группе оркестра. Труба создаёт основную мелодию песни; фортепиано, гитара дополняют основную мелодию; барабаны задают ритм; саксофоны добавляют больше гармонии и т.д.<br>
+Каждый из инструментов имеет свою конкретную работу и задачу, как и наши контейнеры.</p>
+<p>Docker-compose написан в формате YAML который по своей сути похож на JSON или XML. Но YAML имеет более удобный формат для его чтения, чем вышеперечисленные. В формате YAML имеют значения пробелы и табуляции, именно пробелами отделяются названия параметров от их значений.</p>
+<p>Создадим новый файл <code>docker-compose.yml</code>, для рассмотрения синтаксиса Docker Compose:</p>
+<pre><code class="lang-php">version: '3'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - 8080:80
+</code></pre>
+<p>Теперь, построчно разберёмся с заданными параметрами, и что они значат:<br>
+<strong>version</strong>: какая версия docker-compose используется (3 версия - самая последняя на даный момент).<br>
+<strong>services</strong>: контейнеры которые мы хотим запустить.<br>
+<strong>app</strong>: имя сервиса, может быть любым, но желательно, чтобы оно описывало суть этого контейнера.<br>
+<strong>build</strong>: шаги, описывающие процесс билдинга.<br>
+<strong>context</strong>: где находится Dockerfile, из которого будем билдить образ для контейнера.<br>
+<strong>ports</strong>: маппинг портов основной ОС к контейнеру.</p>
+<p>Мы можем использовать этот файл для билдинга нашего предыдущего образа apache:</p>
+<pre><code class="lang-php">docker-compose build</code></pre>
+<br>
+<p>После выполнения этой команды, Docker спарсит файл docker-compose и создаст описанные сервисы на основе инструкций во вкладке <strong>build</strong>.</p>
+<p>А <strong>context</strong> говорит о том, из какой директории мы берём Dockerfile для создания образа сервиса (в текущем случае - это означает текущую директорию <code>.</code>, но могло быть и <code>/php-cli</code>, <code>/nginx</code>, и т.д.).</p>
+<p>И теперь, запустим эти сервисы, которые создали:</p>
+<pre><code class="lang-php">docker-compose up</code></pre>
+<br>
+<p>В результате чего, сервер должен был запуститься, и стать доступным по адресу <a href="http://localhost:8080" target="_blank">localhost:8080</a>.</p>
+<p>Теперь, отключитесь от консоли, нажав CTRL+C.</p>
+<p>Когда контейнер под названием <mark>app</mark> запускается, docker-compose автоматически связывает указанные порты во вкладке <code>ports</code>. Вместо того, как мы делали ранее, выполняя <code>-v 8080:80</code>, docker-compose делает это за нас, получив информацию параметра <code>ports</code>. Docker-compose избавляет нас боли, связанной с указанием параметров в командной строке напрямую.</p>
+<blockquote>
+<p>С <em>docker-compose.yml</em> мы переносим все параметры, ранее записываемые в командной строке при запуске контейнера в конфигурационный YAML файл.</p>
+</blockquote>
+<p>В этом примере мы записали BUILD и RUN шаги для нашего сервиса в <em>docker-compose.yml</em>. И преимущество такого подхода ещё в том, что теперь для билдинга и для запуска этих сервисов нам нужно запомнить только 2 команды: <code>docker-compose build</code> и <code>docker-compose up</code>. При таком подходе не нужно помнить, какие аргументы нужно указывать, какие опции нужно задавать при запуске контейнера.</p>
+<p>Теперь давайте сделаем нашу разработку немного легче. Сделаем, чтобы вместо постоянного перестроения образа при каждом изменении файлов, мы можем примонтировать нашу рабочую папку в контейнер.<br>
+Для этого, удалите строку <code>COPY . /var/www/html</code> с Dockerfile - теперь все файлы будут прокинуты из основной ОС. Новый Dockerfile будет иметь вид:</p>
+<pre><code class="lang-php">FROM php:7.2-apache
+WORKDIR /var/www/html
+RUN apt-get update && apt-get install -y wget
+EXPOSE 80</code></pre>
+<br>
+<p>Ранее мы рассматривали, как примонтировать папку в контейнер, для этого мы запускали контейнер с аргументом <code>-v &lt;HOST_DIRECTORY&gt;:&lt;CONTAINER_DIRECTORY&gt;</code>.<br>
+С Docker-compose мы можем указать напрямую в <em>docker-compose.yml</em>:</p>
+<pre><code class="lang-css">version: '3'
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - 8080:80
+    volumes:
+      - .:/var/www/html
+</code></pre>
+<br>
+<p>Добавленная строка примонтирует текущую директорию основой операционной системы к директории <mark>/var/www/html</mark> контейнера.</p>
+<blockquote>
+<p>В отличие от указания путь в консоли, здесь можно указывать относительный путь (<code>.</code>), не обязательно указывать полный путь (<code>C:\projects\docker-example\apache</code>), как было ранее при ручном запуске контейнера.</p>
+</blockquote>
+<p>Теперь, выполните по очереди команды:</p>
+<pre><code class="lang-php">docker-compose stop
+docker-compose rm</code></pre>
+<br>
+<p>При удалении, вас спросят, действительно ли удалять, напишите <code>y</code> и нажмите кнопку enter. Эти команды остановят и удалят все контейнеры, описанные в файле <em>docker-compose.yml</em> (то же самое, как мы ранее запускали <code>docker stop &lt;CONTAINER_ID&gt;</code> и <code>docker rm &lt;CONTAINER_ID&gt;</code>)</p>
+<p>Теперь перебилдим сервисы, потому что мы изменили Dockerfile:</p>
+<pre><code class="lang-php">docker-compose build</code></pre>
+<br>
+<p>И заново запустим:</p>
+<pre><code class="lang-php">docker-compose up</code></pre>
+<br>
+<p>И опять, по адресу <a href="http://localhost:8080" target="_blank">localhost:8080</a> поднимется наш сервер.</p>
+<p>Вместо того, чтобы копировать каждый раз файлы в образ, мы просто примонтировали папку, содержащую исходный код приложения. И теперь, каждый раз не придётся делать ребилд образа, когда файлы изменяются, теперь изменения происходят в лайв режиме, и будут доступны без перестройки образа.</p>
+<p>Чтобы в этом убедиться, изменим файл <em>index.php</em>, добавим в него скрипт нами любимой пирамиды:</p>
+<pre><code class="lang-php">&lt;?php
+$n = $i = $_GET['count'] ?? 4;
+echo '&lt;pre&gt;';
+while ($i--) {
+    echo str_repeat(' ', $i).str_repeat('* ', $n - $i).&quot;\n&quot;;
+}
+echo '&lt;/pre&gt;';
+</code></pre>
+<br>
+<p>И теперь, если перейти по адресу <a href="http://localhost:8080/?count=10" target="_blank">localhost:8080?count=10</a>, то увидим, что пирамида выводится: <img src="/content/images/2019/05/apache_index_count.png" alt="apache_index_count"></p>
+<p>Монтирование вашей локальной папки как Docker Volume это основной метод как разрабатывать приложения в контейнере.</p>
+<p>Так же, как мы ранее выполняли команды внутри контейнера, указывая аргументы <code>-it ... /bin/bash</code>. Docker-compose так же предоставляет интерфейс по удобному выполнению команд внутри конкретного контейнера. Для этого нужно выполнить команду:</p>
+<pre><code class="lang-php">docker-compose exec {CONTAINER_NAME} {COMMAND}</code></pre>
+<p>где, вместо <code>{CONTAINER_NAME}</code> нужно записать имя контейнера, под которым он записан в сервисах;<br>
+а вместо <code>{COMMAND}</code> - желаемую команду.</p>
+<p>К примеру, эта команда может выглядеть так:</p>
+<pre><code class="lang-php">docker-compose exec php-cli php -v</code></pre>
+<br>
+<p>Но, сделаем это на основе текущего Dockerfile:</p>
+<pre><code class="lang-php">docker-compose down # остановим контейнеры
+docker-compose up -d # здесь используется опция -d которая сообщает, что контейнер должен висеть в режиме демона
+docker-compose exec app apache2 -v</code></pre>
+<br>
+<p>И в результате должны получить <img src="/content/images/2019/05/exec.png" alt="exec"></p>
+<p>Пока что, в docker-compose.yml описан только один сервис, потому разворачиваем мы только один контейнер. Но реальный файл <em>docker-compose</em> выглядит больше. К примеру, для Laravel он такой:</p>
+<pre><code class="lang-css">version: '3'
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/nginx.docker
+    volumes:
+      - ./:/var/www
+    ports:
+      - "8080:80"
+    depends_on:
+      - php-fpm
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: docker/php-fpm.docker
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+      - "REDIS_PORT=6379"
+      - "REDIS_HOST=redis"
+  php-cli:
+    build:
+      context: ./
+      dockerfile: docker/php-cli.docker
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+      - "REDIS_PORT=6379"
+      - "REDIS_HOST=redis"
+    tty: true
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./storage/docker/mysql:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_USER=app"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_DATABASE=app"
+    ports:
+      - "33061:3306"
+  redis:
+    image: redis:3.0
+    ports:
+      - "6379:6379"
+</code></pre>
+<p>И при выполнении одной только команды <code>docker-compose up</code>, поднимутся 5 сервисов. В сравнении с тем, что мы бы вручную выполняли 5 раз команду <code>docker run ...</code>. Так что, использование docker-compose в этом случае - очевидно. Так что, теперь, ещё один шаг позадчи, теперь вы знаете, <strong>что такое docker и docker compose</strong>, и для чего нужен каждый из них.</p>
+<div id="what_is_docker_microservices"></div>
+<h2 id="docker">Как писать Микро Сервисы с Docker? Что такое микросервисы?</h2>
+<blockquote>
+<p>Docker найболее часто используемый инструмент для написания Микросервисов. Микросервисы - это архитектурный шаблон проектирования который следует философии &quot;разделения ответственности&quot;.</p>
+</blockquote>
+<p><strong>Ниже я постараюсь кратко описать, что такое микросервисы</strong>:<br>
+Одиночный миросервис <strong>выполняет одну конкретнкую задачу</strong>. Он никак не связан с другими существующими микросервисами. Вместе же, микросервисы образуют приложение.</p>
+<p>Микросервис должен выполнять свою задачу в изолированной среде, управлять своей собственной локальной информацией, и быть независимым от общей системы настолько, насколько это возможно. В основном, каждый из микросервисов <strong>имеет собственную, отдельную базу данных</strong> (если она нужна).<br>
+Это позволяет создавать максимально гибкие и легко масштабируемые приложения.</p>
+<p>Идея разделения по ответственности предоставляет преимущество в том, что команда разработчиков может работать параллельно, фокусируясь над разными компонентами.</p>
+<p>В основном, микросервисы имеют канал коммуникации мужду собой, в виде REST API, который возвращает данные в JSON, или что-то типа того.</p>
+<p>Иногда бывает неясно, насколько большой, или маленькой должна быть задача микросервиса, которую он должен решать. Это решение лежит на плечах разработчика, здесь нет чёткого правила.</p>
+<p>Использование микросервисов позволяет быстро масшабироваться под большой нагрузкой, без масшабирования остальных частей вашего приложения. То есть, такая архитектура позволяет вам <strong>масшабировать систему компонентно</strong>, там, где это требуется. В случае монолитной, единой системы, вам придётся масшабировать всё приложение.</p>
+<p>Ввиду того, что статья и так получилась достаточно большой, то пример реализации микросервисной архитектуры я покажу в следующей статье на эту тему. Я принял решение  подготовить более качественный материал на эту тему вместе с примерами кода.</p>
+<h2 id="">Резюме</h2>
+<p>Я попытался написать эту статью максимально просто, построив всё объяснение на аналогиях и примерах их жизни. Эта статью можно считать <strong>простой инструкцией по работе с Docker</strong>. Помимо того, что я описал, как пользоваться Docker-ом, добавив несколько рабочих примеров, которые вы можете попробовать у себя на компьютере, я добавил много дополнительной информации, и некоторых тонкостей работы с Docker-ом. Надеюсь, что эта статья показала вам, <strong>что такое Docker, и с чем его едят</strong>. В следующей статья я затрону более продвинутые темы и приведу примеры.</p>
+</div>
+            </section>
+
+            <section class="subscribe-form">
+                <h3 class="subscribe-form-title">Subscribe to Блог php программиста: статьи по PHP, JavaScript, MySql</h3>
+                <p>Get the latest posts delivered right to your inbox</p>
+                <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit"><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+
+            </section>
+
+            <footer class="post-full-footer">
+
+                <section class="author-card">
+                        <img class="author-profile-image" src="/content/images/2020/01/badcode.png" alt="Fomenko Alexander" />
+                    <section class="author-card-content">
+                        <h4 class="author-card-name"><a href="/author/fomenko/">Fomenko Alexander</a></h4>
+                            <p>Read <a href="/author/fomenko/">more posts</a> by this author.</p>
+                    </section>
+                </section>
+                <div class="post-full-footer-right">
+                    <a class="author-card-button" href="/author/fomenko/">Read More</a>
+                </div>
+
+            </footer>
+
+
+        </article>
+
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card"
+                            style="background-image: url(/content/images/2020/01/cover-1.jpg)"
+                >
+                    <header class="read-next-card-header">
+                        <small class="read-next-card-header-sitetitle">&mdash; Блог php программиста: статьи по PHP, JavaScript, MySql &mdash;</small>
+                        <h3 class="read-next-card-header-title"><a href="/tag/docker/">docker</a></h3>
+                    </header>
+                    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li><a href="/balansirovshchik-naghruzki-nginx-s-ispolzovaniiem-docker/">Балансировщик нагрузки Nginx с использованием Docker</a></li>
+                            <li><a href="/symfony-na-windows-docker-slishkom-miedliennyi-sposoby-uskorieniia/">Почему при разработке на Symfony я предпочитаю использовать Vagrant?</a></li>
+                            <li><a href="/kak-ustanovit-elasticsearch-ubuntu-vagrant-homestead-docker-windows/">Как установить ElasticSearch 7</a></li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="/tag/docker/">See all 3 posts →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-elasticsearch tag-vagrant tag-docker tag-povyshaia-kvalifikatsiiu">
+        <a class="post-card-image-link" href="/kak-ustanovit-elasticsearch-ubuntu-vagrant-homestead-docker-windows/">
+            <div class="post-card-image" style="background-image: url(/content/images/2019/05/preview-3.png)"></div>
+        </a>
+    <div class="post-card-content">
+        <a class="post-card-content-link" href="/kak-ustanovit-elasticsearch-ubuntu-vagrant-homestead-docker-windows/">
+            <header class="post-card-header">
+                    <span class="post-card-tags">ElasticSearch от нуля к единице</span>
+                <h2 class="post-card-title">Как установить ElasticSearch 7</h2>
+            </header>
+            <section class="post-card-excerpt">
+                <p>Ввиду того, что в будущем я планирую выпустить несколько статьей, основанных на работе с ElasticSearch, в этой статье я решил показать самые распространённые варианты его установки. В этой статье собраны все варианты установки</p>
+            </section>
+        </a>
+        <footer class="post-card-meta">
+                <img class="author-profile-image" src="/content/images/2020/01/badcode.png" alt="Fomenko Alexander" />
+            <span class="post-card-author"><a href="/author/fomenko/">Fomenko Alexander</a></span>
+        </footer>
+    </div>
+</article>
+
+                <article class="post-card post tag-php tag-oop tag-povyshaia-kvalifikatsiiu">
+        <a class="post-card-image-link" href="/5-printsipov-solid-obiasnieniie-na-paltsakh/">
+            <div class="post-card-image" style="background-image: url(/content/images/2019/05/solid_preview.png)"></div>
+        </a>
+    <div class="post-card-content">
+        <a class="post-card-content-link" href="/5-printsipov-solid-obiasnieniie-na-paltsakh/">
+            <header class="post-card-header">
+                    <span class="post-card-tags">php</span>
+                <h2 class="post-card-title">5 принципов SOLID - объяснение на пальцах</h2>
+            </header>
+            <section class="post-card-excerpt">
+                <p>Принципы SOLID состоят из 5 ключевых идей по написанию и проектированию объектно-ориентированных приложений. Принцип SOLID, сама его идея появилась в 2000 году Робертом Мартином (однако, само официальное название этому принципу были утверждено только</p>
+            </section>
+        </a>
+        <footer class="post-card-meta">
+                <img class="author-profile-image" src="/content/images/2020/01/badcode.png" alt="Fomenko Alexander" />
+            <span class="post-card-author"><a href="/author/fomenko/">Fomenko Alexander</a></span>
+        </footer>
+    </div>
+</article>
+
+        </div>
+    </div>
+</aside>
+
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="https://badcode.ru">
+            <span>Блог php программиста: статьи по PHP, JavaScript, MySql</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Docker самый простой и понятный туториал. Изучаем докер, так, если бы он был игровой приставкой</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Docker%20%D1%81%D0%B0%D0%BC%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%D0%B9%20%D0%B8%20%D0%BF%D0%BE%D0%BD%D1%8F%D1%82%D0%BD%D1%8B%D0%B9%20%D1%82%D1%83%D1%82%D0%BE%D1%80%D0%B8%D0%B0%D0%BB.%20%D0%98%D0%B7%D1%83%D1%87%D0%B0%D0%B5%D0%BC%20%D0%B4%D0%BE%D0%BA%D0%B5%D1%80%2C%20%D1%82%D0%B0%D0%BA%2C%20%D0%B5%D1%81%D0%BB%D0%B8%20%D0%B1%D1%8B%20%D0%BE%D0%BD%20%D0%B1%D1%8B%D0%BB%20%D0%B8%D0%B3%D1%80%D0%BE%D0%B2%D0%BE%D0%B9%20%D0%BF%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%BE%D0%B9&amp;url=https://badcode.ru/docker-tutorial-dlia-novichkov-rassmatrivaiem-docker-tak-iesli-by-on-byl-ighrovoi-pristavkoi/"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://badcode.ru/docker-tutorial-dlia-novichkov-rassmatrivaiem-docker-tak-iesli-by-on-byl-ighrovoi-pristavkoi/"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="https://badcode.ru">Блог php программиста: статьи по PHP, JavaScript, MySql</a> &copy; 2021</section>
+                <nav class="site-footer-nav">
+                    <a href="https://badcode.ru">Latest Posts</a>
+                    
+                    
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+
+                    <!--LiveInternet counter--><script type="text/javascript">
+                    document.write("<a href='//www.liveinternet.ru/click' "+
+                    "target=_blank><img src='//counter.yadro.ru/hit?t11.6;r"+
+                    escape(document.referrer)+((typeof(screen)=="undefined")?"":
+                    ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+                    screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+                    ";h"+escape(document.title.substring(0,150))+";"+Math.random()+
+                    "' alt='' title='LiveInternet: показано число просмотров за 24"+
+                    " часа, посетителей за 24 часа и за сегодня' "+
+                    "border='0' width='88' height='31'><\/a>")
+                    </script><!--/LiveInternet-->
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <div id="subscribe" class="subscribe-overlay">
+        <a class="subscribe-overlay-close" href="#"></a>
+        <div class="subscribe-overlay-content">
+                <img class="subscribe-overlay-logo" src="/content/images/2020/01/badcode-2.png" alt="Блог php программиста: статьи по PHP, JavaScript, MySql" />
+            <h1 class="subscribe-overlay-title">Subscribe to Блог php программиста: статьи по PHP, JavaScript, MySql</h1>
+            <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+            <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit"><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+
+        </div>
+    </div>
+
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js?v=73ab39ae27"></script>
+
+
+    <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+
+    
+
+    <script type="text/javascript" src="/assets/js/prism.js?v=73ab39ae27"></script>
+</body>
+</html>
