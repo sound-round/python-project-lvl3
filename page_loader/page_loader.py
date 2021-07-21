@@ -41,8 +41,8 @@ def download_images(html_path, dir_path, domain_name, netloc):
     for link in image_links:
         source = link.get('src')
         # url = join(domain_name, source)
-        url = f'{domain_name}/{source}'
-        image_name, ext = splitext(f'{netloc}/{source}')
+        url = f'{domain_name}{source}'
+        image_name, ext = splitext(f'{netloc}{source}')
         formatted_image_name = re.sub(FORBIDDEN_CHARS, '-', image_name).lower()
         image_path = join(dir_path, formatted_image_name) + ext
         paths.append(image_path)
@@ -51,14 +51,13 @@ def download_images(html_path, dir_path, domain_name, netloc):
         with open(image_path, 'wb') as file:
             for chunk in response.iter_content(chunk_size=128):
                 file.write(chunk)
-        # TODO change html.
+
         source_path = join(dir_name, formatted_image_name) + ext
         link['src'] = source_path
     html_file.close()
 
     with open(html_path, 'wb') as file:
         file.write(parsed_html.encode(formatter="html5"))
-
     return paths
 
 
@@ -67,13 +66,12 @@ def download(url, output_path=os.getcwd(), library=requests):
     if not directory.is_dir():
         raise FileNotFoundError
     parsed_url = urlparse(url)
-    netloc = parsed_url.netloc
-    html_name = f'{netloc}{parsed_url.path}'
+    html_name = f'{parsed_url.netloc}{parsed_url.path}'
     formatted_html_name = re.sub(FORBIDDEN_CHARS, '-', html_name).lower()
     html_path = f'{output_path}/{formatted_html_name}{".html"}'
     download_html(url, html_path, library)
     download_dir_path = create_download_dir(html_path)
     domain_name = f'{parsed_url.scheme}://{parsed_url.netloc}'
-    download_images(html_path, download_dir_path, domain_name, netloc)
+    download_images(html_path, download_dir_path, domain_name, parsed_url.netloc)
 
     return html_path
