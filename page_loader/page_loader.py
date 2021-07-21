@@ -72,6 +72,11 @@ def download(url, output_path=os.getcwd(), library=requests):
     download_html(url, html_path, library)
     download_dir_path = create_download_dir(html_path)
     domain_name = f'{parsed_url.scheme}://{parsed_url.netloc}'
-    download_images(html_path, download_dir_path, domain_name, parsed_url.netloc)
+    download_images(
+        html_path,
+        download_dir_path,
+        domain_name,
+        parsed_url.netloc
+    )
 
     return html_path
