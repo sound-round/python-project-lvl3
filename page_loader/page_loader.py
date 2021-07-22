@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
 TAGS_AND_ATTRIBUTES = (
-    ('img', 'src'), #('link', 'href'), ('script', 'src')
+    ('img', 'src'), ('link', 'href'), ('script', 'src'),
 )
 
 
@@ -44,10 +44,18 @@ def walk_links(input_data, domain_name, netloc, dir_path):
     dir_name = split(dir_path)[1]
     for link in links:
         source = link.get(attr)
+        if not source:
+            continue
+        if urlparse(source).netloc and urlparse(source).netloc != netloc:
+            continue
+        if urlparse(source).netloc == netloc:
+            source = urlparse(source).path
         # url = join(domain_name, source)
         url = f'{domain_name}{source}'
         image_name, ext = splitext(f'{netloc}{source}')
         formatted_image_name = re.sub(FORBIDDEN_CHARS, '-', image_name).lower()
+        if formatted_image_name[-1] == '-':
+            formatted_image_name = formatted_image_name[:-1]
         image_path = join(dir_path, formatted_image_name) + ext
         #paths.append(image_path)
         response = requests.get(url, stream=True)
@@ -88,6 +96,8 @@ def download(url, output_path=os.getcwd(), library=requests):
     parsed_url = urlparse(url)
     html_name = f'{parsed_url.netloc}{parsed_url.path}'
     formatted_html_name = re.sub(FORBIDDEN_CHARS, '-', html_name).lower()
+    if formatted_html_name[-1] == '-':
+        formatted_html_name = formatted_html_name[:-1]
     html_path = f'{output_path}/{formatted_html_name}{".html"}'
     download_html(url, html_path, library)
     download_dir_path = create_download_dir(html_path)
