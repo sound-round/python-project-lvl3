@@ -52,11 +52,13 @@ def walk_links(input_data, domain_name, netloc, dir_path):
             source = urlparse(source).path
         # url = join(domain_name, source)
         url = f'{domain_name}{source}'
-        image_name, ext = splitext(f'{netloc}{source}')
-        formatted_image_name = re.sub(FORBIDDEN_CHARS, '-', image_name).lower()
+        file_name, file_ext = splitext(f'{netloc}{source}')
+        if not file_ext:
+            file_ext = '.html'
+        formatted_image_name = re.sub(FORBIDDEN_CHARS, '-', file_name).lower()
         if formatted_image_name[-1] == '-':
             formatted_image_name = formatted_image_name[:-1]
-        image_path = join(dir_path, formatted_image_name) + ext
+        image_path = join(dir_path, formatted_image_name) + file_ext
         #paths.append(image_path)
         response = requests.get(url, stream=True)
 
@@ -64,7 +66,7 @@ def walk_links(input_data, domain_name, netloc, dir_path):
             for chunk in response.iter_content(chunk_size=128):
                 file.write(chunk)
 
-        source_path = join(dir_name, formatted_image_name) + ext
+        source_path = join(dir_name, formatted_image_name) + file_ext
         link[attr] = source_path
 
 
