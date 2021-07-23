@@ -9,11 +9,11 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/sound-round/python-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/sound-round/python-project-lvl3/actions)
 
-###ASCIINEMA step 1
+### ASCIINEMA step 1
 [![asciicast](https://asciinema.org/a/9Vieuv3tL6zmtohjFoKTssNfK.svg)](https://asciinema.org/a/9Vieuv3tL6zmtohjFoKTssNfK)
 
-###ASCIINEMA step 2
+### ASCIINEMA step 2
 [![asciicast](https://asciinema.org/a/xfiXONKkDuOHRTgma0Gxml87f.svg)](https://asciinema.org/a/xfiXONKkDuOHRTgma0Gxml87f)
 
-###ASCIINEMA step 3
-[![asciicast](https://asciinema.org/a/vxm9OGtYdPvdw0AwJblDsWR9X.svg)](https://asciinema.org/a/vxm9OGtYdPvdw0AwJblDsWR9X)
+### ASCIINEMA step 3
+[![asciicast](https://asciinema.org/a/HxWYj3JF5yuUPHhy6SenF5R6D.svg)](https://asciinema.org/a/HxWYj3JF5yuUPHhy6SenF5R6D)
