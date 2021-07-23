@@ -60,6 +60,7 @@ def walk_links(input_data, domain_name, netloc, dir_path):
             formatted_file_name = formatted_file_name[:-1]
         image_path = join(dir_path, formatted_file_name) + file_ext
         #paths.append(image_path)
+        print('\u2714', url)
         response = requests.get(url, stream=True)
 
         with open(image_path, 'wb') as file:
@@ -112,5 +113,4 @@ def download(url, output_path=os.getcwd(), library=requests):
         domain_name,
         parsed_url.netloc
     )
-
     return html_path
