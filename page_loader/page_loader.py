@@ -59,8 +59,7 @@ def walk_links(input_data, domain_name, netloc, dir_path):
         if formatted_file_name[-1] == '-':
             formatted_file_name = formatted_file_name[:-1]
         image_path = join(dir_path, formatted_file_name) + file_ext
-        #paths.append(image_path)
-        print('\u2714', url)
+        print('✓', url)
         response = requests.get(url, stream=True)
 
         with open(image_path, 'wb') as file:
@@ -80,16 +79,14 @@ def download_resources(html_path, dir_path, domain_name, netloc):
         raise FileNotFoundError
     html_file = open(html_path, 'r')
     parsed_html = BeautifulSoup(html_file, 'html.parser')
-    #image_links = parsed_html.find_all('img')
     all_input_data = get_input_data(parsed_html, TAGS_AND_ATTRIBUTES)
+
     for input_data in all_input_data:
-    #paths = []
         walk_links(input_data, domain_name, netloc, dir_path)
     html_file.close()
 
     with open(html_path, 'wb') as file:
         file.write(parsed_html.encode(formatter="html5"))
-    #return paths
 
 
 def download(url, output_path=os.getcwd(), library=requests):
