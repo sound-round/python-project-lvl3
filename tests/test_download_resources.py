@@ -6,9 +6,6 @@ from page_loader.page_loader import download_resources, create_download_dir
 from os.path import split, join
 import requests
 from shutil import copyfile
-import filecmp
-
-from bs4 import BeautifulSoup
 
 
 URL = 'https://ru.hexlet.io'
@@ -17,10 +14,26 @@ FIXTURES_PATH = 'fixtures/resources_download_test'
 HTML = 'ru-hexlet-io-courses.html'
 LOADING_DIR = 'ru-hexlet-io-courses_files'
 DATA = [
-    ('/assets/application.css', 'application.css', 'ru-hexlet-io-assets-application.css'),
-    ('/courses', 'courses', 'ru-hexlet-io-courses.html'),
-    ('/assets/professions/nodejs.png', 'nodejs.png', 'ru-hexlet-io-assets-professions-nodejs.png'),
-    ('/packs/js/runtime.js', 'runtime.js', 'ru-hexlet-io-packs-js-runtime.js'),
+    (
+        '/assets/application.css',
+        'application.css',
+        'ru-hexlet-io-assets-application.css'
+    ),
+    (
+        '/courses',
+        'courses',
+        'ru-hexlet-io-courses.html'
+    ),
+    (
+        '/assets/professions/nodejs.png',
+        'nodejs.png',
+        'ru-hexlet-io-assets-professions-nodejs.png'
+    ),
+    (
+        '/packs/js/runtime.js',
+        'runtime.js',
+        'ru-hexlet-io-packs-js-runtime.js'
+    ),
 ]
 
 
