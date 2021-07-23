@@ -14,3 +14,6 @@
 
 ###ASCIINEMA step 2
 [![asciicast](https://asciinema.org/a/xfiXONKkDuOHRTgma0Gxml87f.svg)](https://asciinema.org/a/xfiXONKkDuOHRTgma0Gxml87f)
+
+###ASCIINEMA step 3
+[![asciicast](https://asciinema.org/a/vxm9OGtYdPvdw0AwJblDsWR9X.svg)](https://asciinema.org/a/vxm9OGtYdPvdw0AwJblDsWR9X)
