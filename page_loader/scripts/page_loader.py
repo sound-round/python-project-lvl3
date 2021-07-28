@@ -10,6 +10,7 @@ import argparse
 def main():
     logging.basicConfig(
         filename='log.log',
+        filemode='w',
         level=logging.DEBUG,
         format='%(asctime)s - %(levelname)s - %(message)s',
         datefmt='%m/%d/%Y %I:%M:%S %p',

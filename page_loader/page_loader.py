@@ -82,10 +82,6 @@ def walk_links(input_data, domain_name, netloc, dir_path):
 
 
 def download_resources(html_path, dir_path, domain_name, netloc):
-    directory = Path(dir_path)
-    if not directory.is_dir():
-        logging.error(FileNotFoundError)
-        raise FileNotFoundError
     file_path = Path(html_path)
     if not file_path:
         logging.error(FileNotFoundError)
