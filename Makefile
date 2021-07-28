@@ -4,7 +4,7 @@ build:
 package_install:
 	pip install --user dist/*.whl
 
-force-package-install:
+force_package_install:
 	pip install --force-reinstall --user dist/*.whl
 
 install:
@@ -19,6 +19,9 @@ lint:
 
 test:
 	poetry run pytest -vv
+
+test_log:
+	poetry run pytest -vv -o log_cli=true --log-level debug
 
 test-coverage:
 	poetry run pytest --cov=page_loader --cov-report xml tests/
