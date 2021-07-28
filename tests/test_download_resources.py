@@ -21,7 +21,7 @@ DATA = [
     ),
     (
         '/courses',
-        'courses',
+        'courses.html',
         'ru-hexlet-io-courses.html'
     ),
     (
