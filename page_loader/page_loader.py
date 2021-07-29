@@ -6,6 +6,7 @@ import os
 from os.path import split, splitext, join
 from bs4 import BeautifulSoup
 import logging
+import sys
 
 FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
 TAGS_AND_ATTRIBUTES = (
@@ -14,24 +15,26 @@ TAGS_AND_ATTRIBUTES = (
 
 
 def download_html(url, file_path, client):
+    logging.info('Requesting to %s', url)
+    response = client.get(url, stream=True)
+    response.raise_for_status()
     try:
-        logging.info('Requesting to %s', url)
-        response = client.get(url, stream=True)
-    except (requests.ConnectionError, requests.HTTPError) as e:
-        print(e)
-        logging.error(e)
-    else:
         with open(file_path, 'wb') as file:
             logging.debug('Downloading chunks')
             for chunk in response.iter_content(chunk_size=128):
                 file.write(chunk)
+    except OSError:
+        raise
 
 
 def create_download_dir(html_path):
     root, _ = splitext(html_path)
     dir_path = root + '_files'
     if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
+        try:
+            os.makedirs(dir_path)
+        except OSError:
+            raise
     return dir_path
 
 
@@ -65,16 +68,19 @@ def walk_links(input_data, domain_name, netloc, dir_path):
         formatted_file_name = re.sub(FORBIDDEN_CHARS, '-', file_name).lower()
         if formatted_file_name[-1] == '-':
             formatted_file_name = formatted_file_name[:-1]
-        image_path = join(dir_path, formatted_file_name) + file_ext
+        file_path = join(dir_path, formatted_file_name) + file_ext
         print('✓', url)
 
         logging.info('Requesting to %s', url)
         response = requests.get(url, stream=True)
-
-        with open(image_path, 'wb') as file:
-            logging.debug('Downloading chunks')
-            for chunk in response.iter_content(chunk_size=128):
-                file.write(chunk)
+        response.raise_for_status()
+        try:
+            with open(file_path, 'wb') as file:
+                logging.debug('Downloading chunks')
+                for chunk in response.iter_content(chunk_size=128):
+                    file.write(chunk)
+        except OSError:
+            raise
         logging.info('%s is downloaded', url)
 
         source_path = join(dir_name, formatted_file_name) + file_ext
@@ -82,13 +88,11 @@ def walk_links(input_data, domain_name, netloc, dir_path):
 
 
 def download_resources(html_path, dir_path, domain_name, netloc):
-    file_path = Path(html_path)
-    if not file_path:
-        logging.error(FileNotFoundError)
-        raise FileNotFoundError
-
     logging.debug('Opening html to download resources')
-    html_file = open(html_path, 'r')
+    try:
+        html_file = open(html_path, 'r')
+    except IOError:
+        raise
 
     logging.debug('Parsing html')
     parsed_html = BeautifulSoup(html_file, 'html.parser')
@@ -101,9 +105,11 @@ def download_resources(html_path, dir_path, domain_name, netloc):
     html_file.close()
 
     logging.debug('Rewriting html')
-    with open(html_path, 'wb') as file:
-        file.write(parsed_html.encode(formatter="html5"))
-
+    try:
+        with open(html_path, 'wb') as file:
+            file.write(parsed_html.encode(formatter="html5"))
+    except IOError:
+        raise
 
 def download(url, output_path=os.getcwd(), library=requests):
 
@@ -115,7 +121,7 @@ def download(url, output_path=os.getcwd(), library=requests):
 
     directory = Path(output_path)
     if not directory.is_dir():
-        raise FileNotFoundError
+        raise FileNotFoundError(f'{output_path} does not exist')
     parsed_url = urlparse(url)
     html_name = f'{parsed_url.netloc}{parsed_url.path}'
     formatted_html_name = re.sub(FORBIDDEN_CHARS, '-', html_name).lower()

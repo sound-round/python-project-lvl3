@@ -69,7 +69,9 @@ def test_download_resources(requests_mock):
             fixture_path = get_fixture_path(fixture)
             requests_mock.get(
                 URL + subpath,
-                content=read_in_bytes(fixture_path))
+                content=read_in_bytes(fixture_path),
+                status_code=200,
+            )
         html_path = get_fixture_path(HTML)
         copy_html_path = join(tmp_directory, split(html_path)[1])
         copyfile(html_path, copy_html_path)
@@ -90,13 +92,10 @@ def test_download_resources(requests_mock):
                 f'{tmp_directory}/{HTML}'
             )
 
+        with tempfile.TemporaryDirectory() as tmp_directory:
+            with pytest.raises(FileNotFoundError):
+                download_resources('', tmp_directory, URL, NETLOC)
 
-def test_download_resources_exceptions():
-    # TODO discuss with the mentor
-    with tempfile.TemporaryDirectory() as tmp_directory:
         with pytest.raises(FileNotFoundError):
-            download_resources('', tmp_directory, URL, NETLOC)
-
-    with pytest.raises(FileNotFoundError):
-        html_path = get_fixture_path(HTML)
-        download_resources(html_path, '/undefined', URL, NETLOC)
+            html_path = get_fixture_path(HTML)
+            download_resources(html_path, '/undefined', URL, NETLOC)

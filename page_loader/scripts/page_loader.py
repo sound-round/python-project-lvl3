@@ -5,6 +5,8 @@ from page_loader import page_loader
 from page_loader import cli_args
 import logging
 import argparse
+import requests
+import sys
 
 
 def main():
@@ -15,17 +17,35 @@ def main():
         format='%(asctime)s - %(levelname)s - %(message)s',
         datefmt='%m/%d/%Y %I:%M:%S %p',
     )
+    console = logging.StreamHandler()
+    console.setLevel(logging.ERROR)
+
     logging.info('Started')
 
     try:
         args = cli_args.parse()
-    except argparse.ArgumentError:
-        logging.warning('URL is missing')
+    except argparse.ArgumentError as e:
+        logging.warning(e)
+        raise
     else:
-        file_path = page_loader.download(args.url, args.output)
-        print('Page was successfully downloaded into', f"\'{file_path}\'")
+        try:
+            file_path = page_loader.download(args.url, args.output)
+        except (
+                Exception
+                #requests.exceptions.HTTPError,
+                #requests.exceptions.RequestException,
+                #OSError
+                #FileNotFoundError,
+                #Exception,
+        ) as e:
+            logging.error(console, e)
+            sys.exit(1)
+            pass
+        else:
+            print('Page was successfully downloaded into', f"\'{file_path}\'")
 
     logging.info('Finished')
+    sys.exit()
 
 
 if __name__ == '__main__':
