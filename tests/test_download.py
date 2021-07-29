@@ -4,7 +4,6 @@ import re
 from pathlib import Path
 from os.path import split
 import tempfile
-import requests_mock
 import requests
 
 
@@ -56,7 +55,7 @@ def test_download_exceptions(requests_mock):
     # TODO discuss with the mentor
     requests_mock.get(
         'http://www.test.com/',
-        #text='Not Found',
+        # text='Not Found',
         status_code=404,
     )
 
@@ -67,7 +66,8 @@ def test_download_exceptions(requests_mock):
 
         with pytest.raises(requests.exceptions.HTTPError) as e:
             download('http://www.test.com/', tmp_directory)
-        assert str(e.value) == '404 Client Error: None for url: http://www.test.com/'
+        assert str(e.value) == '404 Client Error: ' \
+                               'None for url: http://www.test.com/'
 
     with pytest.raises(FileNotFoundError):
         download(URLs[1], '/undefined')

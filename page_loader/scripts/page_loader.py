@@ -5,7 +5,6 @@ from page_loader import page_loader
 from page_loader import cli_args
 import logging
 import argparse
-import requests
 import sys
 
 
@@ -32,11 +31,11 @@ def main():
             file_path = page_loader.download(args.url, args.output)
         except (
                 Exception
-                #requests.exceptions.HTTPError,
-                #requests.exceptions.RequestException,
-                #OSError
-                #FileNotFoundError,
-                #Exception,
+                # requests.exceptions.HTTPError,
+                # requests.exceptions.RequestException,
+                # OSError
+                # FileNotFoundError,
+                # Exception,
         ) as e:
             logging.error(console, e)
             sys.exit(1)

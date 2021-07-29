@@ -6,7 +6,7 @@ import os
 from os.path import split, splitext, join
 from bs4 import BeautifulSoup
 import logging
-import sys
+
 
 FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
 TAGS_AND_ATTRIBUTES = (
@@ -111,8 +111,8 @@ def download_resources(html_path, dir_path, domain_name, netloc):
     except IOError:
         raise
 
-def download(url, output_path=os.getcwd(), library=requests):
 
+def download(url, output_path=os.getcwd(), library=requests):
     logging.info('Starting download...')
 
     if not url:
