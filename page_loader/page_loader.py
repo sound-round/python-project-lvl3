@@ -6,23 +6,32 @@ import os
 from os.path import split, splitext, join
 from bs4 import BeautifulSoup
 import logging
+from progress.bar import ChargingBar
 
 
 FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
 TAGS_AND_ATTRIBUTES = (
     ('img', 'src'), ('link', 'href'), ('script', 'src'),
 )
+CHUNK_SIZE = 512
 
 
 def download_html(url, file_path, client):
     logging.info('Requesting to %s', url)
     response = client.get(url, stream=True)
     response.raise_for_status()
+
+    total_size = CHUNK_SIZE
+    if response.headers.get('Content-Length'):
+        total_size = int(response.headers.get('Content-Length'))
+
     try:
         with open(file_path, 'wb') as file:
-            logging.debug('Downloading chunks')
-            for chunk in response.iter_content(chunk_size=128):
-                file.write(chunk)
+            with ChargingBar(url, max=total_size / CHUNK_SIZE) as bar:
+                logging.debug('Downloading chunks')
+                for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
+                    file.write(chunk)
+                    bar.next()
     except OSError:
         raise
 
@@ -69,16 +78,22 @@ def walk_links(input_data, domain_name, netloc, dir_path):
         if formatted_file_name[-1] == '-':
             formatted_file_name = formatted_file_name[:-1]
         file_path = join(dir_path, formatted_file_name) + file_ext
-        print('✓', url)
 
         logging.info('Requesting to %s', url)
         response = requests.get(url, stream=True)
         response.raise_for_status()
+
+        total_size = CHUNK_SIZE
+        if response.headers.get('Content-Length'):
+            total_size = int(response.headers.get('Content-Length'))
+
         try:
             with open(file_path, 'wb') as file:
-                logging.debug('Downloading chunks')
-                for chunk in response.iter_content(chunk_size=128):
-                    file.write(chunk)
+                with ChargingBar(url, max=total_size/CHUNK_SIZE) as bar:
+                    logging.debug('Downloading chunks')
+                    for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
+                        file.write(chunk)
+                        bar.next()
         except OSError:
             raise
         logging.info('%s is downloaded', url)
