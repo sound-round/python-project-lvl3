@@ -16,6 +16,9 @@ DATA = open('tests/fixtures/ru-hexlet-io-courses.html', 'rb')
 
 
 class RequestsFake:
+    headers = {
+            'content-length': 512,
+        }
     def __init__(self, data):
         self.data = data
 
