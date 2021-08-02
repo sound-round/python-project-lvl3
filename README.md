@@ -20,3 +20,6 @@
 
 ### ASCIINEMA step 4
 [![asciicast](https://asciinema.org/a/FyYLqvRxvM657wb8QnCovA7tz.svg)](https://asciinema.org/a/FyYLqvRxvM657wb8QnCovA7tz)
+
+### ASCIINEMA step 5
+[![asciicast](https://asciinema.org/a/obHQ4OGk1G39jQroKhEt5VHFX.svg)](https://asciinema.org/a/obHQ4OGk1G39jQroKhEt5VHFX)
