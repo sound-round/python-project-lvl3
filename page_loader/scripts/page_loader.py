@@ -31,15 +31,9 @@ def main():
             file_path = page_loader.download(args.url, args.output)
         except (
                 Exception
-                # requests.exceptions.HTTPError,
-                # requests.exceptions.RequestException,
-                # OSError
-                # FileNotFoundError,
-                # Exception,
         ) as e:
             logging.error(console, e)
             sys.exit(1)
-            pass
         else:
             print('Page was successfully downloaded into', f"\'{file_path}\'")
 
