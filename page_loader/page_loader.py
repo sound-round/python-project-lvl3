@@ -13,7 +13,7 @@ FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
 TAGS_AND_ATTRIBUTES = (
     ('img', 'src'), ('link', 'href'), ('script', 'src'),
 )
-CHUNK_SIZE = 512
+CHUNK_SIZE = 1024
 
 
 def download_html(url, file_path, client):
