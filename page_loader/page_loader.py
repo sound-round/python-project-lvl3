@@ -1,12 +1,13 @@
-import requests
-from urllib.parse import urlparse
-import re
+from progress.bar import ChargingBar
+from page_loader.logger import logging_info
 from pathlib import Path
-import os
+from urllib.parse import urlparse
 from os.path import split, splitext, join
 from bs4 import BeautifulSoup
+import os
+import re
 import logging
-from progress.bar import ChargingBar
+import requests
 
 
 FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
@@ -16,6 +17,7 @@ TAGS_AND_ATTRIBUTES = (
 CHUNK_SIZE = 1024
 
 
+@logging_info('Downloading html')
 def download_html(url, file_path, client):
     logging.info('Requesting to %s', url)
     response = client.get(url, stream=True)
@@ -28,7 +30,6 @@ def download_html(url, file_path, client):
     try:
         with open(file_path, 'wb') as file:
             with ChargingBar(url, max=total_size / CHUNK_SIZE) as bar:
-                logging.debug('Downloading chunks')
                 for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
                     file.write(chunk)
                     bar.next()
@@ -36,6 +37,16 @@ def download_html(url, file_path, client):
         raise
 
 
+def get_path(url, output_path):
+    parsed_url = urlparse(url)
+    file_name = f'{parsed_url.netloc}{parsed_url.path}'
+    formatted_file_name = re.sub(FORBIDDEN_CHARS, '-', file_name).lower()
+    if formatted_file_name[-1] == '-':
+        formatted_file_name = formatted_file_name[:-1]
+    return join(output_path, formatted_file_name) + ".html"
+
+
+@logging_info('Creating download directory')
 def create_download_dir(html_path):
     root, _ = splitext(html_path)
     dir_path = root + '_files'
@@ -47,11 +58,11 @@ def create_download_dir(html_path):
     return dir_path
 
 
+@logging_info('Getting input data')
 def get_input_data(source, tags_and_attributes):
 
     # get pairs of links(list) and tag
     input_data = []
-    logging.debug('Getting input data')
     for tag, attr in tags_and_attributes:
         links = source.find_all(tag)
         input_data.append((links, attr))
@@ -96,14 +107,13 @@ def walk_links(input_data, domain_name, netloc, dir_path):
                         bar.next()
         except OSError:
             raise
-        logging.info('%s is downloaded', url)
 
         source_path = join(dir_name, formatted_file_name) + file_ext
         link[attr] = source_path
 
 
-def download_resources(html_path, dir_path, domain_name, netloc):
-    logging.debug('Opening html to download resources')
+@logging_info('Downloading resources')
+def download_resources(html_path, domain_name, netloc):
     try:
         html_file = open(html_path, 'r')
     except IOError:
@@ -112,10 +122,10 @@ def download_resources(html_path, dir_path, domain_name, netloc):
     logging.debug('Parsing html')
     parsed_html = BeautifulSoup(html_file, 'html.parser')
     all_input_data = get_input_data(parsed_html, TAGS_AND_ATTRIBUTES)
-
+    dir_path = create_download_dir(html_path)
     for input_data in all_input_data:
         walk_links(input_data, domain_name, netloc, dir_path)
-    logging.info('All resources are downloaded')
+
     logging.debug('Closing html')
     html_file.close()
 
@@ -128,36 +138,21 @@ def download_resources(html_path, dir_path, domain_name, netloc):
 
 
 def download(url, output_path=os.getcwd(), library=requests):
-    logging.info('Starting download...')
-
     if not url:
-        logging.info(ValueError)
         raise ValueError
 
     directory = Path(output_path)
     if not directory.is_dir():
         raise FileNotFoundError(f'{output_path} does not exist')
-    parsed_url = urlparse(url)
-    html_name = f'{parsed_url.netloc}{parsed_url.path}'
-    formatted_html_name = re.sub(FORBIDDEN_CHARS, '-', html_name).lower()
-    if formatted_html_name[-1] == '-':
-        formatted_html_name = formatted_html_name[:-1]
-    html_path = f'{output_path}/{formatted_html_name}{".html"}'
 
-    logging.info('Downloading html...')
+    html_path = get_path(url, output_path)
     download_html(url, html_path, library)
-    logging.info('Downloading html finished')
 
-    logging.info('Creating downloading directory...')
-    download_dir_path = create_download_dir(html_path)
-    logging.info('Downloading directory created')
-
+    parsed_url = urlparse(url)
     domain_name = f'{parsed_url.scheme}://{parsed_url.netloc}'
 
-    logging.info('Downloading resources...')
     download_resources(
         html_path,
-        download_dir_path,
         domain_name,
         parsed_url.netloc
     )

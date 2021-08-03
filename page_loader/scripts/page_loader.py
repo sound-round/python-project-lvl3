@@ -3,23 +3,15 @@
 
 from page_loader import page_loader
 from page_loader import cli_args
+from page_loader.logger import configure_logging
 import logging
 import argparse
 import sys
 
 
 def main():
-    logging.basicConfig(
-        filename='log.log',
-        filemode='w',
-        level=logging.DEBUG,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        datefmt='%m/%d/%Y %I:%M:%S %p',
-    )
-    console = logging.StreamHandler()
-    console.setLevel(logging.ERROR)
-
-    logging.info('Started')
+    configure_logging()
+    logging.info('Downloading started')
 
     try:
         args = cli_args.parse()
@@ -37,7 +29,7 @@ def main():
         else:
             print('Page was successfully downloaded into', f"\'{file_path}\'")
 
-    logging.info('Finished')
+    logging.info('Downloading finished')
     sys.exit()
 
 

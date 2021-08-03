@@ -1,11 +1,10 @@
+from page_loader.logger import logging_info
 import argparse
 import os
-import logging
 
 
+@logging_info('Parsing arguments')
 def parse():
-    logging.info('Parsing arguments')
-
     parser = argparse.ArgumentParser(description='Download page')
     parser.add_argument("url")
     parser.add_argument(
@@ -14,5 +13,4 @@ def parse():
         help='set output folder (default: current directory)',
     )
 
-    logging.info('Parsing finished')
     return parser.parse_args()
