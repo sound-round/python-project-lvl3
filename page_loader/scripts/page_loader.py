@@ -3,7 +3,7 @@
 
 from page_loader import page_loader
 from page_loader import cli_args
-from page_loader.logger import configure_logging
+from page_loader.logger import configure_logging, configure_console
 import logging
 import argparse
 import sys
@@ -11,6 +11,7 @@ import sys
 
 def main():
     configure_logging()
+    console = configure_console()
     logging.info('Downloading started')
 
     try:

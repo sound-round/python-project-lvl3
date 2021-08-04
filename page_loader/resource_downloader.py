@@ -119,4 +119,3 @@ def download_resources(html_path, url):
             file.write(parsed_html.encode(formatter="html5"))
     except IOError:
         raise
-

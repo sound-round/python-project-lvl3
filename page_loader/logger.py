@@ -10,8 +10,12 @@ def configure_logging():
         format='%(asctime)s - %(levelname)s - %(message)s',
         datefmt='%m/%d/%Y %I:%M:%S %p',
     )
+
+
+def configure_console():
     console = logging.StreamHandler()
     console.setLevel(logging.ERROR)
+    return console
 
 
 def logging_info(operation):
