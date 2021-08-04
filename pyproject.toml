@@ -1,11 +1,21 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = ""
+description = "Page-loader - the CLI-utility for downloading internet pages including all resources"
 authors = ["denis <yudaev1@gmail.com>"]
 packages = [
     { include = "page_loader"}
 ]
+repository = "https://github.com/sound-round/python-project-lvl3.git"
+readme = "README.md"
+keywords = [
+    "Python",
+    "Education",
+    "internet",
+    "download",
+    "Hexlet"
+]
+license = "MIT"
 
 [tool.poetry.scripts]
 page-loader = "page_loader.scripts.page_loader:main"
