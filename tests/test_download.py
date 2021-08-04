@@ -56,10 +56,8 @@ def test_download():
 
 
 def test_download_exceptions(requests_mock):
-    # TODO discuss with the mentor
     requests_mock.get(
         'http://www.test.com/',
-        # text='Not Found',
         status_code=404,
     )
 

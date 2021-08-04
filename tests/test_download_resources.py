@@ -2,7 +2,7 @@ import pytest
 import tempfile
 import os
 import pathlib
-from page_loader.page_loader import download_resources, create_download_dir
+from page_loader.page_loader import download_resources
 from os.path import split, join
 import requests
 from shutil import copyfile
@@ -75,8 +75,7 @@ def test_download_resources(requests_mock):
         html_path = get_fixture_path(HTML)
         copy_html_path = join(tmp_directory, split(html_path)[1])
         copyfile(html_path, copy_html_path)
-        #download_dir = create_download_dir(copy_html_path)
-        download_resources(copy_html_path, URL, NETLOC)
+        download_resources(copy_html_path, URL)
 
         for items in DATA:
             subpath, fixture, loaded_file = items
@@ -91,11 +90,3 @@ def test_download_resources(requests_mock):
         ) == read(
                 f'{tmp_directory}/{HTML}'
             )
-
-        #with tempfile.TemporaryDirectory() as tmp_directory:
-        #    with pytest.raises(FileNotFoundError):
-        #        download_resources('', tmp_directory, URL, NETLOC)
-        #
-        #with pytest.raises(FileNotFoundError):
-        #    html_path = get_fixture_path(HTML)
-        #    download_resources(html_path, '/undefined', URL, NETLOC)
