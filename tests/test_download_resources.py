@@ -87,5 +87,5 @@ def test_download_resources(requests_mock):
         assert read(
             get_fixture_path(f'after/{HTML}')
         ) == read(
-                f'{tmp_directory}/{HTML}'
-            )
+            f'{tmp_directory}/{HTML}'
+        )

@@ -56,6 +56,21 @@ def get_resources_data(file, tags_and_attributes):
     return resources_data
 
 
+def download_file(file_path, url, response):
+    total_size = CHUNK_SIZE
+    if response.headers.get('Content-Length'):
+        total_size = int(response.headers.get('Content-Length'))
+    try:
+        with open(file_path, 'wb') as file:
+            with ChargingBar(url, max=total_size / CHUNK_SIZE) as bar:
+                logging.debug('Downloading chunks')
+                for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
+                    file.write(chunk)
+                    bar.next()
+    except OSError:
+        raise
+
+
 def walk_links(url, resource_data, dir_path):
     links, attr = resource_data
     parsed_url = urlparse(url)
@@ -76,19 +91,7 @@ def walk_links(url, resource_data, dir_path):
         response = requests.get(url, stream=True)
         response.raise_for_status()
 
-        total_size = CHUNK_SIZE
-        if response.headers.get('Content-Length'):
-            total_size = int(response.headers.get('Content-Length'))
-
-        try:
-            with open(file_path, 'wb') as file:
-                with ChargingBar(url, max=total_size/CHUNK_SIZE) as bar:
-                    logging.debug('Downloading chunks')
-                    for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
-                        file.write(chunk)
-                        bar.next()
-        except OSError:
-            raise
+        download_file(file_path, url, response)
 
         dir_name = split(dir_path)[1]
         source_path = get_path(url, dir_name)

@@ -1,8 +1,7 @@
-from progress.bar import ChargingBar
 from page_loader.logger import logging_info
 from pathlib import Path
-from page_loader.resource_downloader import download_resources, CHUNK_SIZE
-from page_loader.resource_downloader import get_path
+from page_loader.resource_downloader import download_resources
+from page_loader.resource_downloader import get_path, download_file
 import os
 import logging
 import requests
@@ -17,18 +16,7 @@ def download_html(url, file_path, client):
     response = client.get(url, stream=True)
     response.raise_for_status()
 
-    total_size = CHUNK_SIZE
-    if response.headers.get('Content-Length'):
-        total_size = int(response.headers.get('Content-Length'))
-
-    try:
-        with open(file_path, 'wb') as file:
-            with ChargingBar(url, max=total_size / CHUNK_SIZE) as bar:
-                for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
-                    file.write(chunk)
-                    bar.next()
-    except OSError:
-        raise
+    download_file(file_path, url, response)
 
 
 def download(url, output_path=os.getcwd(), library=requests):
