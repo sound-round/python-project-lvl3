@@ -115,7 +115,7 @@ def download_resources(html_path, url):
 
     logging.debug('Rewriting html')
     try:
-        with open(html_path, 'wb') as file:
-            file.write(parsed_html.encode(formatter="html5"))
+        with open(html_path, 'w') as file:
+            file.write(parsed_html.prettify(formatter="html5"))
     except IOError:
         raise
