@@ -29,6 +29,16 @@ RESOURCES = [
         'ru-hexlet-io-assets-professions-nodejs.png'
     ),
     (
+        '/assets/professions/nodejs1.png',
+        'nodejs1.png',
+        'ru-hexlet-io-assets-professions-nodejs1.png'
+    ),
+    (
+        '/assets/professions/nodejs2.png',
+        'nodejs2.png',
+        'ru-hexlet-io-assets-professions-nodejs2.png'
+    ),
+    (
         '/packs/js/runtime.js',
         'runtime.js',
         'ru-hexlet-io-packs-js-runtime.js'
