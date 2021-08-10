@@ -10,9 +10,9 @@ from shutil import copyfile
 URL = 'https://ru.hexlet.io'
 NETLOC = 'ru.hexlet.io'
 FIXTURES_PATH = 'fixtures/resources_download_test'
-HTML = 'ru-hexlet-io-courses.html'
-LOADING_DIR = 'ru-hexlet-io-courses_files'
-DATA = [
+HTML_NAME = 'ru-hexlet-io-courses.html'
+DOWNLOAD_DIR_NAME = 'ru-hexlet-io-courses_files'
+RESOURCES = [
     (
         '/assets/application.css',
         'application.css',
@@ -56,14 +56,9 @@ def get_fixture_path(fixture_name):
     )
 
 
-def test_download_res_mock_to_del(requests_mock):
-    requests_mock.get(URL, text='data')
-    assert 'data' == requests.get(URL).text
-
-
 def test_download_resources(requests_mock):
     with tempfile.TemporaryDirectory() as tmp_directory:
-        for items in DATA:
+        for items in RESOURCES:
             subpath, fixture, loaded_file = items
             fixture_path = get_fixture_path(fixture)
             requests_mock.get(
@@ -71,21 +66,21 @@ def test_download_resources(requests_mock):
                 content=read_in_bytes(fixture_path),
                 status_code=200,
             )
-        html_path = get_fixture_path(HTML)
+        html_path = get_fixture_path(HTML_NAME)
         copy_html_path = join(tmp_directory, split(html_path)[1])
         copyfile(html_path, copy_html_path)
         download_resources(copy_html_path, URL)
 
-        for items in DATA:
+        for items in RESOURCES:
             subpath, fixture, loaded_file = items
             fixture_path = get_fixture_path(fixture)
             assert read_in_bytes(
                 fixture_path
             ) == read_in_bytes(
-                f'{tmp_directory}/{LOADING_DIR}/{loaded_file}'
+                f'{tmp_directory}/{DOWNLOAD_DIR_NAME}/{loaded_file}'
             )
         assert read(
-            get_fixture_path(f'after/{HTML}')
+            get_fixture_path(f'after/{HTML_NAME}')
         ) == read(
-            f'{tmp_directory}/{HTML}'
+            f'{tmp_directory}/{HTML_NAME}'
         )
