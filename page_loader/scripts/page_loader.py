@@ -16,19 +16,14 @@ def main():
 
     try:
         args = cli_args.parse()
-    except argparse.ArgumentError as e:
-        logging.warning(e)
-        raise
+        file_path = page_loader.download(args.url, args.output)
+    except (
+            Exception
+    ) as e:
+        logging.error(console, e)
+        sys.exit(1)
     else:
-        try:
-            file_path = page_loader.download(args.url, args.output)
-        except (
-                Exception
-        ) as e:
-            logging.error(console, e)
-            sys.exit(1)
-        else:
-            print('Page was successfully downloaded into', f"\'{file_path}\'")
+        print('Page was successfully downloaded into', f"\'{file_path}\'")
 
     logging.info('Downloading finished')
     sys.exit()
