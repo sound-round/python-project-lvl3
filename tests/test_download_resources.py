@@ -1,27 +1,31 @@
 import tempfile
 import os
 import pathlib
-from page_loader.page_loader import download_resources
+from page_loader.page_loader import download_resources, download
 from os.path import split, join
 import requests
 from shutil import copyfile
+from page_loader.logger import configure_logging
+import logging
+
+configure_logging()
 
 
 URL = 'https://ru.hexlet.io'
 NETLOC = 'ru.hexlet.io'
 FIXTURES_PATH = 'fixtures/resources_download_test'
-HTML_NAME = 'ru-hexlet-io-courses.html'
-DOWNLOAD_DIR_NAME = 'ru-hexlet-io-courses_files'
+HTML_NAME = 'ru-hexlet-io.html'
+DOWNLOAD_DIR_NAME = 'ru-hexlet-io_files'
 RESOURCES = [
-    (
-        '/assets/application.css',
-        'application.css',
-        'ru-hexlet-io-assets-application.css'
-    ),
     (
         '/courses',
         'courses.html',
         'ru-hexlet-io-courses.html'
+    ),
+    (
+        '/assets/application.css',
+        'application.css',
+        'ru-hexlet-io-assets-application.css'
     ),
     (
         '/assets/professions/nodejs.png',
@@ -46,14 +50,8 @@ RESOURCES = [
 ]
 
 
-def read(file_path):
-    with open(file_path, 'r') as f:
-        file = f.read()
-    return file
-
-
-def read_in_bytes(file_path):
-    with open(file_path, 'rb') as f:
+def read(file_path, mode='r'):
+    with open(file_path, mode) as f:
         file = f.read()
     return file
 
@@ -68,29 +66,37 @@ def get_fixture_path(fixture_name):
 
 def test_download_resources(requests_mock):
     with tempfile.TemporaryDirectory() as tmp_directory:
+        logging.info(f'tmp_dir_name: {tmp_directory}')
+        requests_mock.get(
+            URL,
+            content=read(get_fixture_path(HTML_NAME), 'rb'),
+            status_code=200,
+        )
         for items in RESOURCES:
-            subpath, fixture, loaded_file = items
-            fixture_path = get_fixture_path(fixture)
+            subpath, fixture_name, loaded_file_name = items
+            fixture_path = get_fixture_path(fixture_name)
             requests_mock.get(
                 URL + subpath,
-                content=read_in_bytes(fixture_path),
+                content=read(fixture_path, 'rb'),
                 status_code=200,
             )
         html_path = get_fixture_path(HTML_NAME)
         copy_html_path = join(tmp_directory, split(html_path)[1])
         copyfile(html_path, copy_html_path)
-        download_resources(copy_html_path, URL)
+        #download_resources(copy_html_path, URL)
+        download(URL, tmp_directory)
 
-        for items in RESOURCES:
-            subpath, fixture, loaded_file = items
-            fixture_path = get_fixture_path(fixture)
-            assert read_in_bytes(
-                fixture_path
-            ) == read_in_bytes(
-                f'{tmp_directory}/{DOWNLOAD_DIR_NAME}/{loaded_file}'
-            )
         assert read(
             get_fixture_path(f'after/{HTML_NAME}')
         ) == read(
             f'{tmp_directory}/{HTML_NAME}'
         )
+
+        for items in RESOURCES:
+            subpath, fixture_name, loaded_file_name = items
+            fixture_path = get_fixture_path(fixture_name)
+            assert read(
+                fixture_path, 'rb',
+            ) == read(
+                f'{tmp_directory}/{DOWNLOAD_DIR_NAME}/{loaded_file_name}', 'rb',
+            )

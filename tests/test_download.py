@@ -39,7 +39,6 @@ def test_download():
             file_path = download(
                 url,
                 tmp_directory,
-                library=RequestsFake(DATA)
             )
             file_name = split(file_path)[-1]
             forbidden_chars = re.search(FORBIDDEN_CHARS, file_name)
