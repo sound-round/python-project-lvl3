@@ -1,57 +1,104 @@
 import pytest
-from page_loader.page_loader import download
-import re
-from pathlib import Path
-from os.path import split
 import tempfile
+import os
+import pathlib
+from page_loader.page_loader import download_resources, download
+from os.path import split, join
 import requests
+from shutil import copyfile
+from page_loader.logger import configure_logging
+import logging
 
 
-FORBIDDEN_CHARS = r'[^0-9a-z-.]'
-URLs = (
-    'https://ru.hexlet.io/courses',
-    'https://ru.HEXLET.io/courses',
-)
-DATA = open('tests/fixtures/ru-hexlet-io-courses.html', 'rb')
+configure_logging()
 
 
-class RequestsFake:
-    headers = {
-        'content-length': 512,
-    }
+WRONG_URL = 'https://ru.HEXLET.io/courses'
+URL = 'https://ru.hexlet.io'
+NETLOC = 'ru.hexlet.io'
+FIXTURES_PATH = 'fixtures'
+HTML_NAME = 'ru-hexlet-io.html'
+DOWNLOAD_DIR_NAME = 'ru-hexlet-io_files'
+RESOURCES = [
+    (
+        '/courses',
+        'courses.html',
+        'ru-hexlet-io-courses.html'
+    ),
+    (
+        '/assets/application.css',
+        'application.css',
+        'ru-hexlet-io-assets-application.css'
+    ),
+    (
+        '/assets/professions/nodejs.png',
+        'nodejs.png',
+        'ru-hexlet-io-assets-professions-nodejs.png'
+    ),
+    (
+        '/assets/professions/nodejs1.png',
+        'nodejs1.png',
+        'ru-hexlet-io-assets-professions-nodejs1.png'
+    ),
+    (
+        '/assets/professions/nodejs2.png',
+        'nodejs2.png',
+        'ru-hexlet-io-assets-professions-nodejs2.png'
+    ),
+    (
+        '/packs/js/runtime.js',
+        'runtime.js',
+        'ru-hexlet-io-packs-js-runtime.js'
+    ),
+]
 
-    def __init__(self, data):
-        self.data = data
 
-    def get(self, url, stream):
-        return self
-
-    def iter_content(self, chunk_size):
-        return self.data
-
-    def raise_for_status(self):
-        pass
+def read(file_path, mode='r'):
+    with open(file_path, mode) as f:
+        file = f.read()
+    return file
 
 
-def test_download():
-    for url in URLs:
-        with tempfile.TemporaryDirectory() as tmp_directory:
-            file_path = download(
-                url,
-                tmp_directory,
+def get_fixture_path(fixture_name):
+    return os.path.join(
+        pathlib.Path(__file__).absolute().parent,
+        FIXTURES_PATH,
+        fixture_name
+    )
+
+
+def test_download(requests_mock):
+    with tempfile.TemporaryDirectory() as tmp_directory:
+        logging.info(f'tmp_dir_name: {tmp_directory}')
+        requests_mock.get(
+            URL,
+            content=read(get_fixture_path(HTML_NAME), 'rb'),
+            status_code=200,
+        )
+        for items in RESOURCES:
+            subpath, fixture_name, loaded_file_name = items
+            fixture_path = get_fixture_path(fixture_name)
+            requests_mock.get(
+                URL + subpath,
+                content=read(fixture_path, 'rb'),
+                status_code=200,
             )
-            file_name = split(file_path)[-1]
-            forbidden_chars = re.search(FORBIDDEN_CHARS, file_name)
-            file = Path(file_path)
+        download(URL, tmp_directory)
 
-            assert file.is_file()
-            #  assert file_path is not None
-            assert isinstance(file_path, str)
-            assert not forbidden_chars
-            assert file_path.endswith('ru-hexlet-io-courses.html')
-            #  assert splitext(file_path)[-1] == '.html'
-            #  TODO think how to do that:
-            assert not ('https---' in file_path)
+        assert read(
+            get_fixture_path(f'after/{HTML_NAME}')
+        ) == read(
+            f'{tmp_directory}/{HTML_NAME}'
+        )
+
+        for items in RESOURCES:
+            subpath, fixture_name, loaded_file_name = items
+            fixture_path = get_fixture_path(fixture_name)
+            assert read(
+                fixture_path, 'rb',
+            ) == read(
+                f'{tmp_directory}/{DOWNLOAD_DIR_NAME}/{loaded_file_name}', 'rb',
+            )
 
 
 def test_download_exceptions(requests_mock):
@@ -71,4 +118,4 @@ def test_download_exceptions(requests_mock):
                                'None for url: http://www.test.com/'
 
     with pytest.raises(FileNotFoundError):
-        download(URLs[1], '/undefined')
+        download(WRONG_URL, '/undefined')
