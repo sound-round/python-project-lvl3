@@ -90,7 +90,6 @@ def walk_links(url, resource_data, dir_path):
         logging.info('Requesting to %s', url)
         response = requests.get(url, stream=True)
         response.raise_for_status()
-
         download_file(file_path, url, response)
 
         dir_name = split(dir_path)[1]
