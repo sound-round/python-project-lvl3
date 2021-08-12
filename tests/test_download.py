@@ -2,10 +2,8 @@ import pytest
 import tempfile
 import os
 import pathlib
-from page_loader.page_loader import download_resources, download
-from os.path import split, join
+from page_loader.page_loader import download
 import requests
-from shutil import copyfile
 from page_loader.logger import configure_logging
 import logging
 

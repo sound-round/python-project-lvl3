@@ -5,7 +5,6 @@ from page_loader import page_loader
 from page_loader import cli_args
 from page_loader.logger import configure_logging, configure_console
 import logging
-import argparse
 import sys
 
 
