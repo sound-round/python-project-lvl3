@@ -33,10 +33,13 @@ def get_path(url, output_path):
     return join(output_path, formatted_file_name) + file_ext
 
 
-@logging_info('Creating download directory')
-def create_download_dir(html_path):
+def get_download_dir_path(html_path):
     root, _ = splitext(html_path)
-    dir_path = root + '_files'
+    return root + '_files'
+
+
+@logging_info('Creating download directory')
+def create_download_dir(dir_path):
     if not os.path.exists(dir_path):
         try:
             os.makedirs(dir_path)
@@ -107,7 +110,8 @@ def download_resources(html_path, url):
     logging.debug('Parsing html')
     parsed_html = BeautifulSoup(html_file, 'html.parser')
     resources_data = get_resources_data(parsed_html, TAGS_AND_ATTRIBUTES)
-    dir_path = create_download_dir(html_path)
+    dir_path = get_download_dir_path(html_path)
+    create_download_dir(dir_path)
 
     for resource_data in resources_data:
         walk_links(url, resource_data, dir_path)
