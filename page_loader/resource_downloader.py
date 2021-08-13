@@ -1,27 +1,17 @@
-from progress.bar import ChargingBar
 from page_loader.logger import logging_info
 from urllib.parse import urlparse, urljoin
 from os.path import split, splitext, join
 from bs4 import BeautifulSoup
+from page_loader.common import download_file, format_name
 import os
-import re
 import logging
 import requests
 
 
-FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
-CHUNK_SIZE = 1024
 TAGS_AND_ATTRIBUTES = (
     ('img', 'src'), ('link', 'href'), ('script', 'src'),
 )
 HTML_EXT = '.html'
-
-
-def format_name(file_name):
-    formatted_file_name = re.sub(FORBIDDEN_CHARS, '-', file_name).lower()
-    if formatted_file_name[-1] == '-':
-        formatted_file_name = formatted_file_name[:-1]
-    return formatted_file_name
 
 
 def get_path(url, output_path):
@@ -41,10 +31,7 @@ def get_download_dir_path(html_path):
 @logging_info('Creating download directory')
 def create_download_dir(dir_path):
     if not os.path.exists(dir_path):
-        try:
-            os.makedirs(dir_path)
-        except OSError:
-            raise
+        os.makedirs(dir_path)
     return dir_path
 
 
@@ -57,21 +44,6 @@ def get_resources_data(file, tags_and_attributes):
         links = file.find_all(tag)
         resources_data.append((links, attr))
     return resources_data
-
-
-def download_file(file_path, url, response):
-    total_size = CHUNK_SIZE
-    if response.headers.get('Content-Length'):
-        total_size = int(response.headers.get('Content-Length'))
-    try:
-        with open(file_path, 'wb') as file:
-            with ChargingBar(url, max=total_size / CHUNK_SIZE) as bar:
-                logging.debug('Downloading chunks')
-                for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
-                    file.write(chunk)
-                    bar.next()
-    except OSError:
-        raise
 
 
 def walk_links(url, resource_data, dir_path):
@@ -102,10 +74,7 @@ def walk_links(url, resource_data, dir_path):
 
 @logging_info('Downloading resources')
 def download_resources(html_path, url):
-    try:
-        html_file = open(html_path, 'r')
-    except IOError:
-        raise
+    html_file = open(html_path, 'r')
 
     logging.debug('Parsing html')
     parsed_html = BeautifulSoup(html_file, 'html.parser')
@@ -120,8 +89,5 @@ def download_resources(html_path, url):
     html_file.close()
 
     logging.debug('Rewriting html')
-    try:
-        with open(html_path, 'w') as file:
-            file.write(parsed_html.prettify(formatter="html5"))
-    except IOError:
-        raise
+    with open(html_path, 'w') as file:
+        file.write(parsed_html.prettify(formatter="html5"))
