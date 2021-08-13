@@ -1,11 +1,12 @@
 import pytest
 import tempfile
 import os
+import stat
 import pathlib
-from page_loader.page_loader import download
 import requests
-from page_loader.logger import configure_logging
 import logging
+from page_loader.page_loader import download
+from page_loader.logger import configure_logging
 
 
 configure_logging()
@@ -112,11 +113,25 @@ def test_download_exceptions(requests_mock):
             )
             with pytest.raises(requests.exceptions.HTTPError) as e:
                 download('http://www.test.com/', tmp_directory)
-
             assert str(e.value).split()[0] == str(status_code)
 
+        requests_mock.get(
+            URL,
+            content=read(get_fixture_path(HTML_NAME), 'rb'),
+            status_code=200,
+        )
+
+        with pytest.raises(NotADirectoryError):
+            download(URL, get_fixture_path(HTML_NAME))
+
+        os.chmod(tmp_directory, stat.S_IREAD)
+        with pytest.raises(PermissionError):
+            download(URL, tmp_directory)
+
+    requests_mock.get(
+        WRONG_URL,
+        content=read(get_fixture_path(HTML_NAME), 'rb'),
+        status_code=200,
+    )
     with pytest.raises(FileNotFoundError):
         download(WRONG_URL, '/undefined')
-# создать папку и поменять права
-# протестировать файл или папка
-# посмотреть ошибки пайтона
