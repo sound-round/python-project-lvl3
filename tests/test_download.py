@@ -11,6 +11,7 @@ import logging
 configure_logging()
 
 
+STATUS_CODES = [403, 404, 500, 502]
 WRONG_URL = 'https://ru.HEXLET.io/courses'
 URL = 'https://ru.hexlet.io'
 NETLOC = 'ru.hexlet.io'
@@ -100,20 +101,22 @@ def test_download(requests_mock):
 
 
 def test_download_exceptions(requests_mock):
-    requests_mock.get(
-        'http://www.test.com/',
-        status_code=404,
-    )
-
     with tempfile.TemporaryDirectory() as tmp_directory:
-
         with pytest.raises(ValueError):
             download('', tmp_directory)
 
-        with pytest.raises(requests.exceptions.HTTPError) as e:
-            download('http://www.test.com/', tmp_directory)
-        assert str(e.value) == '404 Client Error: ' \
-                               'None for url: http://www.test.com/'
+        for status_code in STATUS_CODES:
+            requests_mock.get(
+                'http://www.test.com/',
+                status_code=status_code,  # пробежать циклом
+            )
+            with pytest.raises(requests.exceptions.HTTPError) as e:
+                download('http://www.test.com/', tmp_directory)
+
+            assert str(e.value).split()[0] == str(status_code)
 
     with pytest.raises(FileNotFoundError):
         download(WRONG_URL, '/undefined')
+# создать папку и поменять права
+# протестировать файл или папка
+# посмотреть ошибки пайтона
