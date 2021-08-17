@@ -4,16 +4,10 @@ import os
 import stat
 import pathlib
 import requests
-import logging
 from page_loader.page_loader import download
-from page_loader.logger import configure_logging
-
-
-configure_logging()
 
 
 STATUS_CODES = [403, 404, 500, 502]
-WRONG_URL = 'https://ru.HEXLET.io/courses'
 URL = 'https://ru.hexlet.io'
 NETLOC = 'ru.hexlet.io'
 FIXTURES_PATH = 'fixtures'
@@ -68,31 +62,30 @@ def get_fixture_path(fixture_name):
 
 
 def test_download(requests_mock):
-    with tempfile.TemporaryDirectory() as tmp_directory:
-        logging.info(f'tmp_dir_name: {tmp_directory}')
+    requests_mock.get(
+        URL,
+        content=read(get_fixture_path(HTML_NAME), 'rb'),
+        status_code=200,
+    )
+    for resource_data in RESOURCES:
+        subpath, fixture_name, loaded_file_name = resource_data
+        fixture_path = get_fixture_path(fixture_name)
         requests_mock.get(
-            URL,
-            content=read(get_fixture_path(HTML_NAME), 'rb'),
+            URL + subpath,
+            content=read(fixture_path, 'rb'),
             status_code=200,
         )
-        for items in RESOURCES:
-            subpath, fixture_name, loaded_file_name = items
-            fixture_path = get_fixture_path(fixture_name)
-            requests_mock.get(
-                URL + subpath,
-                content=read(fixture_path, 'rb'),
-                status_code=200,
-            )
-        download(URL, tmp_directory)
 
+    with tempfile.TemporaryDirectory() as tmp_directory:
+        download(URL, tmp_directory)
         assert read(
             get_fixture_path(f'after/{HTML_NAME}')
         ) == read(
             f'{tmp_directory}/{HTML_NAME}'
         )
 
-        for items in RESOURCES:
-            subpath, fixture_name, loaded_file_name = items
+        for resource_data in RESOURCES:
+            subpath, fixture_name, loaded_file_name = resource_data
             fixture_path = get_fixture_path(fixture_name)
             assert read(
                 fixture_path, 'rb',
@@ -101,37 +94,36 @@ def test_download(requests_mock):
             )
 
 
-def test_download_exceptions(requests_mock):
+@pytest.mark.parametrize('status_code', STATUS_CODES)
+def test_download_request_exceptions(requests_mock, status_code):
+    requests_mock.get(
+        'http://www.test.com/',
+        status_code=status_code,
+    )
     with tempfile.TemporaryDirectory() as tmp_directory:
         with pytest.raises(ValueError):
             download('', tmp_directory)
 
-        for status_code in STATUS_CODES:
-            requests_mock.get(
-                'http://www.test.com/',
-                status_code=status_code,  # пробежать циклом
-            )
-            with pytest.raises(requests.exceptions.HTTPError) as e:
-                download('http://www.test.com/', tmp_directory)
-            assert str(e.value).split()[0] == str(status_code)
+        with pytest.raises(requests.exceptions.HTTPError) as e:
+            download('http://www.test.com/', tmp_directory)
+        assert str(e.value).split()[0] == str(status_code)
 
-        requests_mock.get(
-            URL,
-            content=read(get_fixture_path(HTML_NAME), 'rb'),
-            status_code=200,
-        )
 
-        with pytest.raises(NotADirectoryError):
-            download(URL, get_fixture_path(HTML_NAME))
-
-        os.chmod(tmp_directory, stat.S_IREAD)
-        with pytest.raises(PermissionError):
-            download(URL, tmp_directory)
+def test_download_io_errors(requests_mock):
 
     requests_mock.get(
-        WRONG_URL,
+        URL,
         content=read(get_fixture_path(HTML_NAME), 'rb'),
         status_code=200,
     )
+
+    with pytest.raises(NotADirectoryError):
+        download(URL, get_fixture_path(HTML_NAME))
+
     with pytest.raises(FileNotFoundError):
-        download(WRONG_URL, '/undefined')
+        download(URL, '/undefined')
+
+    with tempfile.TemporaryDirectory() as tmp_directory:
+        os.chmod(tmp_directory, stat.S_IREAD)
+        with pytest.raises(PermissionError):
+            download(URL, tmp_directory)
