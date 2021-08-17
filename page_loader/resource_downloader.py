@@ -36,11 +36,11 @@ def create_download_dir(dir_path):
 
 
 @logging_info('Getting input data')
-def get_resources_data(file, tags_and_attributes):
+def get_resources_data(file):
 
     # get pairs of links(list) and tag
     resources_data = []
-    for tag, attr in tags_and_attributes:
+    for tag, attr in TAGS_AND_ATTRIBUTES:
         links = file.find_all(tag)
         resources_data.append((links, attr))
     return resources_data
@@ -78,7 +78,7 @@ def download_resources(html_path, url):
 
     logging.debug('Parsing html')
     parsed_html = BeautifulSoup(html_file, 'html.parser')
-    resources_data = get_resources_data(parsed_html, TAGS_AND_ATTRIBUTES)
+    resources_data = get_resources_data(parsed_html)
     dir_path = get_download_dir_path(html_path)
     create_download_dir(dir_path)
 
