@@ -1,9 +1,7 @@
 from page_loader.logger import logging_info
 from urllib.parse import urlparse, urljoin
 from os.path import split, splitext, join
-from bs4 import BeautifulSoup
 from page_loader.common import download_file, format_name
-import os
 import logging
 import requests
 
@@ -21,18 +19,6 @@ def get_path(url, output_path):
         file_ext = HTML_EXT
     formatted_file_name = format_name(file_name)
     return join(output_path, formatted_file_name) + file_ext
-
-
-def get_download_dir_path(html_path):
-    root, _ = splitext(html_path)
-    return root + '_files'
-
-
-@logging_info('Creating download directory')
-def create_download_dir(dir_path):
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
-    return dir_path
 
 
 @logging_info('Getting input data')
@@ -72,22 +58,7 @@ def walk_links(url, resource_data, dir_path):
         link[attr] = source_path
 
 
-@logging_info('Downloading resources')
-def download_resources(html_path, url):
-    html_file = open(html_path, 'r')
-
-    logging.debug('Parsing html')
-    parsed_html = BeautifulSoup(html_file, 'html.parser')
+def download_resources(parsed_html, url, dir_path):
     resources_data = get_resources_data(parsed_html)
-    dir_path = get_download_dir_path(html_path)
-    create_download_dir(dir_path)
-
     for resource_data in resources_data:
         walk_links(url, resource_data, dir_path)
-
-    logging.debug('Closing html')
-    html_file.close()
-
-    logging.debug('Rewriting html')
-    with open(html_path, 'w') as file:
-        file.write(parsed_html.prettify(formatter="html5"))
