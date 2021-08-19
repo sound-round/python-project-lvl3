@@ -1,4 +1,3 @@
-# from pathlib import Path
 from page_loader.common import format_name
 from urllib.parse import urlparse
 from os.path import join
@@ -49,11 +48,6 @@ def rewrite_html(parsed_html, html_path):
 def download(url, output_path=os.getcwd()):
     if not url:
         raise ValueError
-
-    # TODO discuss
-    # directory = Path(output_path)
-    # if not directory.is_dir():
-    #    raise FileNotFoundError(f'{output_path} does not exist')
 
     html_path = get_html_path(url, output_path)
     response = requests.get(url, stream=True)
