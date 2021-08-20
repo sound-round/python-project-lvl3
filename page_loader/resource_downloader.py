@@ -1,7 +1,7 @@
 from page_loader.logger import logging_info
 from urllib.parse import urlparse, urljoin
-from os.path import split, splitext, join
-from page_loader.common import download_file, format_name
+from os.path import split
+from page_loader.common import download_file, get_path
 import logging
 import requests
 
@@ -9,16 +9,6 @@ import requests
 TAGS_AND_ATTRIBUTES = (
     ('img', 'src'), ('link', 'href'), ('script', 'src'),
 )
-HTML_EXT = '.html'
-
-
-def get_path(url, output_path):
-    parsed_url = urlparse(url)
-    file_name, file_ext = splitext(f'{parsed_url.netloc}{parsed_url.path}')
-    if not file_ext:
-        file_ext = HTML_EXT
-    formatted_file_name = format_name(file_name)
-    return join(output_path, formatted_file_name) + file_ext
 
 
 @logging_info('Getting input data')
@@ -47,12 +37,12 @@ def download_resource(url, resource_data, dir_path):
             source = urlparse(source).path
         url = urljoin(domain_name, source)
 
-        file_path = get_path(url, dir_path)
+        file_path = get_path(url, dir_path, html=False)
         logging.info('Requesting to %s', url)
         response = requests.get(url, stream=True)
         response.raise_for_status()
         download_file(file_path, url, response)
 
         dir_name = split(dir_path)[1]
-        source_path = get_path(url, dir_name)
+        source_path = get_path(url, dir_name, html=False)
         link[attr] = source_path

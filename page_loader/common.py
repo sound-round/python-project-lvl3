@@ -1,10 +1,26 @@
 from progress.bar import ChargingBar
+from os.path import join, splitext
+from urllib.parse import urlparse
 import re
 import logging
 
 
 FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
 CHUNK_SIZE = 1024
+HTML_EXT = '.html'
+
+
+def get_path(url, output_path, html=True):
+    parsed_url = urlparse(url)
+    full_file_name = f'{parsed_url.netloc}{parsed_url.path}'
+
+    if html:
+        return join(output_path, format_name(full_file_name)) + HTML_EXT
+
+    file_name, file_ext = splitext(full_file_name)
+    if not file_ext:
+        file_ext = HTML_EXT
+    return join(output_path, format_name(file_name)) + file_ext
 
 
 def format_name(file_name):
