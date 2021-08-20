@@ -3,7 +3,7 @@ from page_loader.common import format_name
 from urllib.parse import urlparse
 from os.path import join
 from page_loader.logger import logging_info
-from page_loader.resource_downloader import download_resources
+from page_loader.resource_downloader import get_resources_data, download_resource
 from os.path import splitext
 from bs4 import BeautifulSoup
 import os
@@ -63,7 +63,9 @@ def download(url, output_path=os.getcwd()):
     create_download_dir(download_dir_path)
 
     parsed_html = parse_html(html_file)
-    download_resources(parsed_html, url, download_dir_path)
+    resources_data = get_resources_data(parsed_html)
+    for resource_data in resources_data:
+        download_resource(url, resource_data, download_dir_path)
     write_html(parsed_html, html_path)
 
     return html_path

@@ -32,7 +32,7 @@ def get_resources_data(file):
     return resources_data
 
 
-def walk_links(url, resource_data, dir_path):
+def download_resource(url, resource_data, dir_path):
     links, attr = resource_data
     parsed_url = urlparse(url)
     netloc = parsed_url.netloc
@@ -56,10 +56,3 @@ def walk_links(url, resource_data, dir_path):
         dir_name = split(dir_path)[1]
         source_path = get_path(url, dir_name)
         link[attr] = source_path
-
-
-def download_resources(parsed_html, url, dir_path):
-    # плохое название, вытащит в пейдж лоадер целиком
-    resources_data = get_resources_data(parsed_html)
-    for resource_data in resources_data:
-        walk_links(url, resource_data, dir_path)
