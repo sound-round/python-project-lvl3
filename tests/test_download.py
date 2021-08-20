@@ -120,8 +120,8 @@ def test_download_io_errors(requests_mock):
     with pytest.raises(NotADirectoryError):
         download(URL, get_fixture_path(HTML_NAME))
 
-    # with pytest.raises(FileNotFoundError):
-    #    download(URL, '/undefined')
+    with pytest.raises(FileNotFoundError):
+        download(URL, '/undefined')
 
     with tempfile.TemporaryDirectory() as tmp_directory:
         os.chmod(tmp_directory, stat.S_IREAD)
