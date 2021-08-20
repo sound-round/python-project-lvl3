@@ -1,3 +1,4 @@
+from pathlib import Path
 from page_loader.common import format_name
 from urllib.parse import urlparse
 from os.path import join
@@ -39,7 +40,7 @@ def parse_html(html_file):
     return parsed_html
 
 
-def rewrite_html(parsed_html, html_path):
+def write_html(parsed_html, html_path):
     logging.debug('Rewriting html')
     with open(html_path, 'w') as file:
         file.write(parsed_html.prettify(formatter="html5"))
@@ -48,6 +49,10 @@ def rewrite_html(parsed_html, html_path):
 def download(url, output_path=os.getcwd()):
     if not url:
         raise ValueError
+
+    directory = Path(output_path)
+    if not directory.is_dir() and not directory.is_file():
+        raise FileNotFoundError(f'{output_path} does not exist')
 
     html_path = get_html_path(url, output_path)
     response = requests.get(url, stream=True)
@@ -59,6 +64,6 @@ def download(url, output_path=os.getcwd()):
 
     parsed_html = parse_html(html_file)
     download_resources(parsed_html, url, download_dir_path)
-    rewrite_html(parsed_html, html_path)
+    write_html(parsed_html, html_path)
 
     return html_path
