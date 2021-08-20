@@ -59,6 +59,7 @@ def walk_links(url, resource_data, dir_path):
 
 
 def download_resources(parsed_html, url, dir_path):
+    # плохое название, вытащит в пейдж лоадер целиком
     resources_data = get_resources_data(parsed_html)
     for resource_data in resources_data:
         walk_links(url, resource_data, dir_path)
