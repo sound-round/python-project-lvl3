@@ -1,4 +1,4 @@
-# page-loader
+# Page-loader
 
 ## Badges
 [![Maintainability](https://api.codeclimate.com/v1/badges/fa73fdf8738429e795c7/maintainability)](https://codeclimate.com/github/sound-round/python-project-lvl3/maintainability)
