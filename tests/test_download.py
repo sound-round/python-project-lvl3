@@ -4,7 +4,6 @@ import os
 import stat
 import pathlib
 import requests
-import urllib
 from page_loader.page_loader import download
 
 
@@ -92,7 +91,9 @@ def test_download(requests_mock):
             assert read(
                 fixture_path, 'rb',
             ) == read(
-                os.path.join(tmp_directory_path, DOWNLOAD_DIR_NAME, loaded_file_name), 'rb',
+                os.path.join(
+                    tmp_directory_path, DOWNLOAD_DIR_NAME, loaded_file_name
+                ), 'rb',
             )
 
 
@@ -119,11 +120,16 @@ def test_download_io_errors(requests_mock):
         status_code=200,
     )
 
-    with pytest.raises(NotADirectoryError):
-        download(URL, get_fixture_path(HTML_NAME))
-
-    with pytest.raises(FileNotFoundError):
+    with pytest.raises(PermissionError):
         download(URL, '/undefined')
+
+    # this test may be used if download() has checking for directory type.
+    # with pytest.raises(FileNotFoundError):
+    #     download(URL, '/undefined')
+
+    # this test may be used if download() has checking for file type.
+    # with pytest.raises(NotADirectoryError):
+    #     download(URL, get_fixture_path(HTML_NAME))
 
     with tempfile.TemporaryDirectory() as tmp_directory_path:
         os.chmod(tmp_directory_path, stat.S_IREAD)
