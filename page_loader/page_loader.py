@@ -1,4 +1,4 @@
-# from pathlib import Path
+from pathlib import Path
 from page_loader.common import get_path
 from page_loader.logger import logging_info
 from page_loader.resource_downloader \
@@ -31,9 +31,9 @@ def download(url, output_path=os.getcwd()):
         raise requests.exceptions.InvalidURL
 
     # if this checking is missing, PermissionError raises
-    # directory = Path(output_path)
-    # if not directory.is_dir():  # and not directory.is_file():
-    #     raise FileNotFoundError(f'Directory {output_path} does not exist')
+    directory = Path(output_path)
+    if not directory.is_dir():  # and not directory.is_file():
+        raise FileNotFoundError(f'Directory {output_path} does not exist')
 
     html_path = get_path(url, output_path, file_type='html')
     response = requests.get(url, stream=True)

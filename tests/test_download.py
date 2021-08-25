@@ -120,12 +120,12 @@ def test_download_io_errors(requests_mock):
         status_code=200,
     )
 
-    with pytest.raises(PermissionError):
-        download(URL, '/undefined')
+    # with pytest.raises(PermissionError):
+    #     download(URL, '/undefined')
 
     # this test may be used if download() has checking for directory type.
-    # with pytest.raises(FileNotFoundError):
-    #     download(URL, '/undefined')
+    with pytest.raises(FileNotFoundError):
+        download(URL, '/undefined')
 
     # this test may be used if download() has checking for file type.
     # with pytest.raises(NotADirectoryError):
