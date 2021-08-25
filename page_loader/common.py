@@ -9,17 +9,24 @@ FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
 CHUNK_SIZE = 1024
 HTML_EXT = '.html'
 REPLACER = '-'
+DIR_ENDING = '_files'
 
 
-def get_path(url, output_path, html=True):
+def get_path(url, output_path, file_type=''):
     parsed_url = urlparse(url)
     full_file_name = f'{parsed_url.netloc}{parsed_url.path}'
+
+    if file_type == 'dir':
+        return join(output_path, format_name(full_file_name)) + DIR_ENDING
+
     file_name, file_ext = splitext(full_file_name)
     if not file_ext:
-        html = True
-    if html:
+        file_type = 'html'
+
+    if file_type == 'html':
         file_ext = HTML_EXT
         return join(output_path, format_name(full_file_name)) + file_ext
+
     return join(output_path, format_name(file_name)) + file_ext
 
 
