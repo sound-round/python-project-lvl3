@@ -8,36 +8,33 @@ import logging
 FORBIDDEN_CHARS = r'[^0-9a-zA-Z-]'
 CHUNK_SIZE = 1024
 HTML_EXT = '.html'
-REPLACER = '-'
 DIR_ENDING = '_files'
 
 
-def get_path(url, output_path, file_type=''):
+def get_full_name(url):
     parsed_url = urlparse(url)
-    full_file_name = f'{parsed_url.netloc}{parsed_url.path}'
+    return f'{parsed_url.netloc}{parsed_url.path}'
 
-    if file_type == 'dir':
+
+def get_path(full_file_name, output_path, type=''):
+    if type == 'dir':
         return join(output_path, format_name(full_file_name)) + DIR_ENDING
 
     file_name, file_ext = splitext(full_file_name)
-    if not file_ext:
-        file_type = 'html'
-
-    if file_type == 'html':
-        file_ext = HTML_EXT
-        return join(output_path, format_name(full_file_name)) + file_ext
+    if not file_ext or type == 'html':
+        return join(output_path, format_name(full_file_name)) + HTML_EXT
 
     return join(output_path, format_name(file_name)) + file_ext
 
 
-def format_name(file_name):
+def format_name(file_name, replacer='-'):
     if file_name[-1] == '/':
         file_name = file_name[:-1]
-    formatted_file_name = re.sub(FORBIDDEN_CHARS, REPLACER, file_name).lower()
+    formatted_file_name = re.sub(FORBIDDEN_CHARS, replacer, file_name).lower()
     return formatted_file_name
 
 
-def download_file(file_path, url, response):
+def write_file(file_path, url, response):
     total_size = CHUNK_SIZE
     if response.headers.get('Content-Length'):
         total_size = int(response.headers.get('Content-Length'))
