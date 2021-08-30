@@ -10,8 +10,8 @@ from page_loader.page_loader import download
 STATUS_CODES = [403, 404, 500, 502]
 URL = 'https://ru.hexlet.io'
 NETLOC = 'ru.hexlet.io'
-FIXTURES_PATH = 'fixtures'
-FIXTURE_AFTER_PATH = 'after'
+FIXTURES_DIR = 'fixtures'
+FIXTURE_AFTER_DIR = 'after'
 HTML_NAME = 'ru-hexlet-io.html'
 DOWNLOAD_DIR_NAME = 'ru-hexlet-io_files'
 RESOURCES = [
@@ -57,7 +57,7 @@ def read(file_path, mode='r'):
 def get_fixture_path(fixture_name):
     return os.path.join(
         pathlib.Path(__file__).absolute().parent,
-        FIXTURES_PATH,
+        FIXTURES_DIR,
         fixture_name
     )
 
@@ -80,7 +80,7 @@ def test_download(requests_mock):
     with tempfile.TemporaryDirectory() as tmp_directory_path:
         download(URL, tmp_directory_path)
         assert read(
-            get_fixture_path(os.path.join(FIXTURE_AFTER_PATH, HTML_NAME))
+            get_fixture_path(os.path.join(FIXTURE_AFTER_DIR, HTML_NAME))
         ) == read(
             os.path.join(tmp_directory_path, HTML_NAME)
         )
@@ -104,12 +104,15 @@ def test_download_request_exceptions(requests_mock, status_code):
         status_code=status_code,
     )
     with tempfile.TemporaryDirectory() as tmp_directory_path:
-        with pytest.raises(requests.exceptions.InvalidURL):
-            download('', tmp_directory_path)
-
         with pytest.raises(requests.exceptions.HTTPError) as e:
             download('http://www.test.com/', tmp_directory_path)
         assert str(e.value).split()[0] == str(status_code)
+
+
+def test_download_invalid_url():
+    with tempfile.TemporaryDirectory() as tmp_directory_path:
+        with pytest.raises(requests.exceptions.InvalidURL):
+            download('', tmp_directory_path)
 
 
 def test_download_io_errors(requests_mock):
@@ -123,11 +126,11 @@ def test_download_io_errors(requests_mock):
     # with pytest.raises(PermissionError):
     #     download(URL, '/undefined')
 
-    # this test may be used if download() has checking for directory type.
+    # this test may be used if download() has been checked for directory type.
     with pytest.raises(FileNotFoundError):
         download(URL, '/undefined')
 
-    # this test may be used if download() has checking for file type.
+    # this test may be used if download() has been checked for file type.
     # with pytest.raises(NotADirectoryError):
     #     download(URL, get_fixture_path(HTML_NAME))
 
