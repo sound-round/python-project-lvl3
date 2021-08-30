@@ -1,5 +1,5 @@
 from pathlib import Path
-from page_loader.common import get_path
+from page_loader.common import get_path, get_full_name
 from page_loader.logger import logging_info
 from page_loader.resource_downloader \
     import get_resources, format_resource
@@ -35,12 +35,12 @@ def download(url, output_path=os.getcwd()):
     if not directory.is_dir():  # and not directory.is_file():
         raise FileNotFoundError(f'Directory {output_path} does not exist')
 
-    html_path = get_path(url, output_path, file_type='html')
+    html_name = get_full_name(url)
+    html_path = get_path(html_name, output_path, type='html')
+    download_dir_path = get_path(html_name, output_path, type='dir')
     response = requests.get(url, stream=True)
     response.raise_for_status()
     html_file = response.content
-
-    download_dir_path = get_path(url, output_path, file_type='dir')
     create_download_dir(download_dir_path)
 
     logging.debug('Parsing html')
