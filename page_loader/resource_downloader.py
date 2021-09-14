@@ -1,7 +1,7 @@
 from page_loader.logger import logging_info
 from urllib.parse import urlparse, urljoin
 from os.path import split
-from page_loader.common import write_file, get_path, get_full_name
+from page_loader.support_functions import write_file, get_path, get_full_name
 import logging
 import requests
 
@@ -35,6 +35,7 @@ def format_resource(url, resource, dir_path):
         file_name = get_full_name(full_url)
         file_path = get_path(file_name, dir_path)
         logging.info('Requesting to %s', full_url)
+        # TODO this:
         response = requests.get(full_url, stream=True)
         response.raise_for_status()
         write_file(file_path, full_url, response)

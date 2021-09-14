@@ -1,5 +1,5 @@
 from pathlib import Path
-from page_loader.common import get_path, get_full_name
+from page_loader.support_functions import get_path, get_full_name
 from page_loader.logger import logging_info
 from page_loader.resource_downloader \
     import get_resources, format_resource
