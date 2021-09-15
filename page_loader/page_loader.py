@@ -27,6 +27,11 @@ def write_html(parsed_html, html_path):
 
 
 def download(url, output_path=os.getcwd()):
+
+    directory = Path(output_path)
+    if not directory.is_dir() and not directory.is_file():
+        raise FileNotFoundError(f'Directory {output_path} does not exist')
+
     html_name = get_full_name(url)
     html_path = get_path(html_name, output_path, type='html')
     download_dir_path = get_path(html_name, output_path, type='dir')

@@ -116,14 +116,15 @@ def test_download_missing_schema():
 
 
 def test_download_io_errors(requests_mock):
+
     requests_mock.get(
         URL,
         content=read(get_fixture_path(HTML_NAME), 'rb'),
         status_code=200,
     )
 
-    with pytest.raises(PermissionError):
-        download(URL, '/undefined')
+    with pytest.raises(FileNotFoundError):
+        download(URL, get_fixture_path('/undefined'))
 
     with pytest.raises(NotADirectoryError):
         download(URL, get_fixture_path(HTML_NAME))
