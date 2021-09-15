@@ -109,30 +109,24 @@ def test_download_request_exceptions(requests_mock, status_code):
         assert str(e.value).split()[0] == str(status_code)
 
 
-def test_download_invalid_url():
+def test_download_missing_schema():
     with tempfile.TemporaryDirectory() as tmp_directory_path:
-        with pytest.raises(requests.exceptions.InvalidURL):
+        with pytest.raises(requests.exceptions.MissingSchema):
             download('', tmp_directory_path)
 
 
 def test_download_io_errors(requests_mock):
-
     requests_mock.get(
         URL,
         content=read(get_fixture_path(HTML_NAME), 'rb'),
         status_code=200,
     )
 
-    # with pytest.raises(PermissionError):
-    #     download(URL, '/undefined')
-
-    # this test may be used if download() has been checked for directory type.
-    with pytest.raises(FileNotFoundError):
+    with pytest.raises(PermissionError):
         download(URL, '/undefined')
 
-    # this test may be used if download() has been checked for file type.
-    # with pytest.raises(NotADirectoryError):
-    #     download(URL, get_fixture_path(HTML_NAME))
+    with pytest.raises(NotADirectoryError):
+        download(URL, get_fixture_path(HTML_NAME))
 
     with tempfile.TemporaryDirectory() as tmp_directory_path:
         os.chmod(tmp_directory_path, stat.S_IREAD)

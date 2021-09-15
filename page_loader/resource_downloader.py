@@ -36,7 +36,7 @@ def format_resource(url, resource, dir_path):
         file_path = get_path(file_name, dir_path)
         logging.info('Requesting to %s', full_url)
         # TODO this:
-        response = requests.get(full_url, stream=True)
+        response = requests.get(full_url, stream=True) # TODO разделить на два цикла
         response.raise_for_status()
         write_file(file_path, full_url, response)
 

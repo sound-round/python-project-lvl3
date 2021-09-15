@@ -28,8 +28,8 @@ def get_path(full_file_name, output_path, type=''):
 
 
 def format_name(file_name, replacer='-'):
-    if file_name[-1] == '/':
-        file_name = file_name[:-1]
+    # if file_name[-1] == '/':
+    #     file_name = file_name[:-1]
     formatted_file_name = re.sub(FORBIDDEN_CHARS, replacer, file_name).lower()
     return formatted_file_name
 

@@ -23,18 +23,10 @@ def parse_html(html_file):
 
 def write_html(parsed_html, html_path):
     with open(html_path, 'w') as file:
-        file.write(parsed_html.prettify(formatter="html5"))
+        file.write(parsed_html)
 
 
 def download(url, output_path=os.getcwd()):
-    if not url:
-        raise requests.exceptions.InvalidURL
-
-    # if this checking is missing, PermissionError raises
-    directory = Path(output_path)
-    if not directory.is_dir():  # and not directory.is_file():
-        raise FileNotFoundError(f'Directory {output_path} does not exist')
-
     html_name = get_full_name(url)
     html_path = get_path(html_name, output_path, type='html')
     download_dir_path = get_path(html_name, output_path, type='dir')
@@ -51,6 +43,6 @@ def download(url, output_path=os.getcwd()):
         format_resource(url, resource, download_dir_path)
 
     logging.debug('Writing html')
-    write_html(parsed_html, html_path)
+    write_html(parsed_html.prettify(formatter="html5"), html_path)
 
     return html_path
