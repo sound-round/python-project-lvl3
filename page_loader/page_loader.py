@@ -22,6 +22,7 @@ def parse_html(html_file):
 
 
 def write_html(parsed_html, html_path):
+    print(parsed_html)
     with open(html_path, 'w') as file:
         file.write(parsed_html)
 
