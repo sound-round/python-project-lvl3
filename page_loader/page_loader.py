@@ -2,7 +2,7 @@ from pathlib import Path
 from page_loader.support_functions import get_path, get_full_name
 from page_loader.logger import logging_info
 from page_loader.resource_downloader \
-    import get_resources, format_resource
+    import get_resources, format_resource, save_resource
 from bs4 import BeautifulSoup
 import os
 import requests
@@ -45,9 +45,10 @@ def download(url, output_path=os.getcwd()):
 
     resources = get_resources(parsed_html)
     for resource in resources:
+        save_resource(url, resource, download_dir_path)
         format_resource(url, resource, download_dir_path)
 
-    logging.debug('Writing html')
+    logging.info('Writing html')
     write_html(parsed_html.prettify(formatter="html5"), html_path)
 
     return html_path

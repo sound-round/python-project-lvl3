@@ -33,13 +33,29 @@ def format_resource(url, resource, dir_path):
         source = urlparse(source).path
         full_url = urljoin(url + '/', source)
         file_name = get_full_name(full_url)
-        file_path = get_path(file_name, dir_path)
         logging.info('Requesting to %s', full_url)
-        # TODO this:
-        response = requests.get(full_url, stream=True) # TODO разделить на два цикла
-        response.raise_for_status()
-        write_file(file_path, full_url, response)
 
         dir_name = split(dir_path)[1]
         source_path = get_path(file_name, dir_name)
         link[attr] = source_path
+
+
+def save_resource(url, resource, dir_path):
+    links, attr = resource
+    parsed_url = urlparse(url)
+    netloc = parsed_url.netloc
+    for link in links:
+        source = link.get(attr)
+        if not source:
+            continue
+        if urlparse(source).netloc and urlparse(source).netloc != netloc:
+            continue
+        source = urlparse(source).path
+        full_url = urljoin(url + '/', source)
+        file_name = get_full_name(full_url)
+        file_path = get_path(file_name, dir_path)
+        logging.info('Requesting to %s', full_url)
+
+        response = requests.get(full_url, stream=True)
+        response.raise_for_status()
+        write_file(file_path, full_url, response)
