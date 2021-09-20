@@ -1,5 +1,5 @@
 from pathlib import Path
-from page_loader.support_functions import get_path, get_full_name
+from page_loader.common import get_path, get_full_name
 from page_loader.logger import logging_info
 from page_loader.resource_downloader \
     import get_resources, format_resource, save_resource
@@ -22,7 +22,7 @@ def parse_html(html_file):
 
 
 def write_html(parsed_html, html_path):
-    print(parsed_html)
+    logging.info(str(parsed_html))
     with open(html_path, 'w') as file:
         file.write(parsed_html)
 

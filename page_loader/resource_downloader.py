@@ -1,7 +1,7 @@
 from page_loader.logger import logging_info
 from urllib.parse import urlparse, urljoin
 from os.path import split
-from page_loader.support_functions import write_file, get_path, get_full_name
+from page_loader.common import write_file, get_path, get_full_name
 import logging
 import requests
 
