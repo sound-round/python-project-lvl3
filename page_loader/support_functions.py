@@ -11,22 +11,19 @@ HTML_EXT = '.html'
 DIR_ENDING = '_files'
 
 
-def get_full_name(url):
+def get_full_name(url, type=None):
     parsed_url = urlparse(url)
-    path, ext = splitext(parsed_url.path)
-    return f'{format_name(parsed_url.netloc + path).strip("-")}{ext}'  # TODO splitext на последнюю часть
-
-
-def get_path(full_file_name, output_path, type=''):
-    path = join(output_path, full_file_name)
+    file_name, file_ext = splitext(parsed_url.path)
+    formatted_path = format_name(parsed_url.netloc + file_name).strip("-")
     if type == 'dir':
-        return path + DIR_ENDING
-
-    file_name, file_ext = splitext(full_file_name)
+        return f'{formatted_path}{file_ext}{DIR_ENDING}'
     if not file_ext or type == 'html':
-        return path + HTML_EXT
+        return f'{formatted_path}{file_ext}{HTML_EXT}'
+    return f'{formatted_path}{file_ext}'  # TODO splitext на последнюю часть
 
-    return path
+
+def get_path(full_file_name, output_path):
+    return join(output_path, full_file_name)
 
 
 def format_name(file_name, replacer='-'):
