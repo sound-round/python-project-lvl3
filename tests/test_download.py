@@ -124,7 +124,7 @@ def test_download_io_errors(requests_mock):
     )
 
     with pytest.raises(FileNotFoundError):
-        download(URL, get_fixture_path('/undefined'))
+        download(URL, get_fixture_path('undefined'))
 
     with pytest.raises(NotADirectoryError):
         download(URL, get_fixture_path(HTML_NAME))
