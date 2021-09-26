@@ -4,7 +4,6 @@ from progress.bar import ChargingBar
 from page_loader.logger import logging_info
 from page_loader.support_functions import get_path, get_full_name, CHUNK_SIZE
 import requests
-import logging
 
 
 TAG_ATTRIBUTES = (
@@ -27,11 +26,7 @@ def find_resources_for_download(url, parsed_html, dir_path):
             source = urlparse(source).path
             full_url = urljoin(url + '/', source)
             file_name = get_full_name(full_url)
-            logging.debug('dirpath: %s', dir_path)
-            logging.debug('dirname: %s', split(dir_path)[1])
-            dir_name = split(dir_path)[1]
-            source_path = get_path(file_name, dir_name)
-            link[attr] = source_path
+            link[attr] = get_path(file_name, split(dir_path)[1])
 
             files_for_download.append((file_name, full_url))
     return files_for_download
