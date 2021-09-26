@@ -11,7 +11,6 @@ import sys
 def main():
     configure_logging()
     console = configure_console()
-    logging.info('Downloading started')
 
     try:
         args = cli_args.parse()
@@ -23,8 +22,6 @@ def main():
         sys.exit(1)
     else:
         print('Page was successfully downloaded into', f"\'{file_path}\'")
-
-    logging.info('Downloading finished')
     sys.exit()
 
 
