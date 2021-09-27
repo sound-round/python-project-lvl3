@@ -1,5 +1,4 @@
 from urllib.parse import urlparse, urljoin
-from os.path import split
 from progress.bar import ChargingBar
 from page_loader.logger import logging_info
 from page_loader.support_functions import get_path, get_full_name, CHUNK_SIZE
@@ -33,7 +32,7 @@ def get_resources(url, parsed_html, dir_name):
 
 
 def save_resource(resource, dir_path):
-    file_name, full_url= resource
+    file_name, full_url = resource
     file_path = get_path(file_name, dir_path)
     response = requests.get(full_url, stream=True)
     response.raise_for_status()
