@@ -15,14 +15,13 @@ def main():
     try:
         args = cli_args.parse()
         file_path = page_loader.download(args.url, args.output)
+        print('Page was successfully downloaded into', f"\'{file_path}\'")
+        sys.exit()
     except (
             Exception
     ) as e:
         logging.error(console, e)
         sys.exit(1)
-    else:
-        print('Page was successfully downloaded into', f"\'{file_path}\'")
-    sys.exit()
 
 
 if __name__ == '__main__':
