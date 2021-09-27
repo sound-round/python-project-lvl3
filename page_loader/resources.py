@@ -10,10 +10,10 @@ TAG_ATTRIBUTES = (
 )
 
 
-def get_resources(url, parsed_html, dir_name):
+def get_resources(url, parsed_html):
     parsed_url = urlparse(url)
     netloc = parsed_url.netloc
-    resources = []
+    resources = {}
     for tag, attr in TAG_ATTRIBUTES:
         links = parsed_html.find_all(tag)
         for link in links:
@@ -25,18 +25,29 @@ def get_resources(url, parsed_html, dir_name):
             source = urlparse(source).path
             full_url = urljoin(url + '/', source)
             resource_name = get_full_name(full_url)
-            link[attr] = get_path(resource_name, dir_name)
 
-            resources.append((resource_name, full_url))
+            resources[resource_name] = {
+                'full_url': full_url,
+                'link': link,
+                'attr': attr,
+            }
     return resources
 
 
-def save_resource(resource, dir_path):
-    resource_name, full_url = resource
-    file_path = get_path(resource_name, dir_path)
-    response = requests.get(full_url, stream=True)
-    response.raise_for_status()
-    write_response_to_file(file_path, full_url, response)
+def modify_html(resources, dir_name):
+    for resource_name in resources.keys():
+        link = resources[resource_name]['link']
+        attr = resources[resource_name]['attr']
+        link[attr] = get_path(resource_name, dir_name)
+
+
+def save_resources(resources, dir_path):
+    for resource_name in resources.keys():
+        full_url = resources[resource_name]['full_url']
+        file_path = get_path(resource_name, dir_path)
+        response = requests.get(full_url, stream=True)
+        response.raise_for_status()
+        write_response_to_file(file_path, full_url, response)
 
 
 @logging_info('Writing response to file')
