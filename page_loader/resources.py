@@ -24,16 +24,16 @@ def get_resources(url, parsed_html, dir_name):
                 continue
             source = urlparse(source).path
             full_url = urljoin(url + '/', source)
-            file_name = get_full_name(full_url)
-            link[attr] = get_path(file_name, dir_name)
+            resource_name = get_full_name(full_url)
+            link[attr] = get_path(resource_name, dir_name)
 
-            resources.append((file_name, full_url))
+            resources.append((resource_name, full_url))
     return resources
 
 
 def save_resource(resource, dir_path):
-    file_name, full_url = resource
-    file_path = get_path(file_name, dir_path)
+    resource_name, full_url = resource
+    file_path = get_path(resource_name, dir_path)
     response = requests.get(full_url, stream=True)
     response.raise_for_status()
     write_response_to_file(file_path, full_url, response)
