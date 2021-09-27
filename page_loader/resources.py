@@ -11,7 +11,7 @@ TAG_ATTRIBUTES = (
 )
 
 
-def get_resources(url, parsed_html, dir_path):
+def get_resources(url, parsed_html, dir_name):
     parsed_url = urlparse(url)
     netloc = parsed_url.netloc
     resources = []
@@ -26,19 +26,14 @@ def get_resources(url, parsed_html, dir_path):
             source = urlparse(source).path
             full_url = urljoin(url + '/', source)
             file_name = get_full_name(full_url)
-            # link[attr] = get_path(file_name, split(dir_path)[1])
+            link[attr] = get_path(file_name, dir_name)
 
-            resources.append((file_name, full_url, (link, attr)))
+            resources.append((file_name, full_url))
     return resources
 
 
-def modify_link(resource, dir_path):
-    file_name, _, (link, attr) = resource
-    link[attr] = get_path(file_name, split(dir_path)[1])
-
-
 def save_resource(resource, dir_path):
-    file_name, full_url, _ = resource
+    file_name, full_url= resource
     file_path = get_path(file_name, dir_path)
     response = requests.get(full_url, stream=True)
     response.raise_for_status()
