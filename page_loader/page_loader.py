@@ -1,7 +1,7 @@
 from page_loader.support_functions import get_path, get_full_name
 from page_loader.logger import logging_info
 from page_loader.resources \
-    import get_resources, save_resource
+    import parse_resources, save_resource
 from bs4 import BeautifulSoup
 import os
 import requests
@@ -41,7 +41,7 @@ def download(url, output_path=os.getcwd()):
     create_download_dir(download_dir_path)
 
     parsed_html = parse_html(html_file)
-    resources = get_resources(
+    resources = parse_resources(
         url, parsed_html, download_dir_name
     )
 

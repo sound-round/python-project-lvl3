@@ -10,7 +10,7 @@ TAG_ATTRIBUTES = (
 )
 
 
-def get_resources(url, parsed_html, dir_name):
+def parse_resources(url, parsed_html, dir_name):
     parsed_url = urlparse(url)
     netloc = parsed_url.netloc
     resources = []
