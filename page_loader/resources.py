@@ -35,7 +35,6 @@ def save_resource(resource, dir_path):
     resource_name, full_url = resource
     file_path = get_path(resource_name, dir_path)
     response = requests.get(full_url, stream=True)
-    response.raise_for_status()
     write_response_to_file(file_path, full_url, response)
 
 
